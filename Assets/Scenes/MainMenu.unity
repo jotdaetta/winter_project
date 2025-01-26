@@ -422,9 +422,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b1142a56f346c194b9fa8a5b64e0945e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cam: {fileID: 0}
-  noise: {fileID: 0}
-  camOffset: {fileID: 0}
+  cam: {fileID: 732784661}
+  noise: {fileID: 732784658}
+  camOffset: {fileID: 732784660}
   autoSpector: 0
 --- !u!114 &732784660
 MonoBehaviour:
