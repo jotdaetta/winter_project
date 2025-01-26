@@ -20,7 +20,8 @@ public class CamManager : MonoBehaviour
 
     public bool autoSpector;
 
-    private void Awake() {
+    private void Awake()
+    {
         cam = GetComponent<CinemachineCamera>();
         camOffset = GetComponent<CinemachineCameraOffset>();
         noise = GetComponent<CinemachineBasicMultiChannelPerlin>();
@@ -31,30 +32,36 @@ public class CamManager : MonoBehaviour
         dutch_d = cam.Lens.Dutch;
     }
 
-    private void Update() {
+    private void Update()
+    {
     }
 
-    void ClearRoutine(ref IEnumerator routine) {
-        if (routine != null) {
+    void ClearRoutine(ref IEnumerator routine)
+    {
+        if (routine != null)
+        {
             StopCoroutine(routine);
 
             routine = null;
         }
     }
 
-    public void CloseUp(float orSize, float dutch, float dur = 0) {
+    public void CloseUp(float orSize, float dutch, float dur = 0)
+    {
         ClearRoutine(ref dutchRoutine);
         dutchRoutine = _closeUp(orSize, dutch, dur);
 
         StartCoroutine(dutchRoutine);
     }
-    public void CloseOut(float dur = 0) {
+    public void CloseOut(float dur = 0)
+    {
         ClearRoutine(ref dutchRoutine);
         dutchRoutine = _closeOut(dur);
 
         StartCoroutine(dutchRoutine);
     }
-    public void Offset(Vector2 off, float dur = 0) {
+    public void Offset(Vector2 off, float dur = 0)
+    {
         ClearRoutine(ref offRoutine);
 
         offRoutine = _offset(off, dur);
@@ -67,11 +74,14 @@ public class CamManager : MonoBehaviour
         StartCoroutine(_shake(strength, dur));
     }
 
-    IEnumerator _closeUp(float orSize, float dutch, float dur) {
-        if (dur > 0) {
+    IEnumerator _closeUp(float orSize, float dutch, float dur)
+    {
+        if (dur > 0)
+        {
             float dSize = cam.Lens.OrthographicSize, dDutch = cam.Lens.Dutch;
 
-            for (int i = 1; i <= frame; i++) {
+            for (int i = 1; i <= frame; i++)
+            {
                 cam.Lens.OrthographicSize = dSize - (dSize - orSize) / frame * i;
                 cam.Lens.Dutch = dDutch - (dDutch - dutch) / frame * i;
 
@@ -85,29 +95,35 @@ public class CamManager : MonoBehaviour
         dutchRoutine = null;
     }
 
-    IEnumerator _closeOut(float dur) {
-        if (dur > 0) {
+    IEnumerator _closeOut(float dur)
+    {
+        if (dur > 0)
+        {
             float dSize = cam.Lens.OrthographicSize, dDutch = cam.Lens.Dutch;
 
-            for (int i = 1; i <= frame; i++) {
+            for (int i = 1; i <= frame; i++)
+            {
                 cam.Lens.OrthographicSize = dSize + (orSize_d - dSize) / frame * i;
                 cam.Lens.Dutch = dDutch + (dutch_d - dDutch) / frame * i;
 
                 yield return new WaitForSeconds(dur / frame);
             }
         }
-        
+
         cam.Lens.OrthographicSize = orSize_d;
         cam.Lens.Dutch = dutch_d;
 
         dutchRoutine = null;
     }
 
-    IEnumerator _offset(Vector3 off, float dur = 0) {
-        if (dur > 0) {
+    IEnumerator _offset(Vector3 off, float dur = 0)
+    {
+        if (dur > 0)
+        {
             Vector2 beforeOff = camOffset.Offset;
 
-            for (int i = 1; i <= frame; i++) {
+            for (int i = 1; i <= frame; i++)
+            {
                 camOffset.Offset = new Vector3(
                     beforeOff.x - (beforeOff.x - off.x) / frame * i,
                     beforeOff.y - (beforeOff.y - off.y) / frame * i

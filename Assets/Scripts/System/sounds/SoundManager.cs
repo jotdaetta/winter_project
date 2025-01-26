@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class SoundManager : MonoBehaviour
 {
-    public static SoundManager Instance { get; private set;}
+    public static SoundManager Instance { get; private set; }
     public Sound[] Sounds;
     public AudioSource[] _tracks;
 
     public string PlayingMusic;
 
-    void Start() {
-        
+    void Start()
+    {
+
         Instance = this;
+        Play("music1");
     }
 
-    public void PlayToDist(string musicId, Vector3 originPos, Vector3 targetPos, float distance, float pitch = 0) {
-        if (Vector2.Distance(originPos, new Vector2(targetPos.x, targetPos.y)) <= distance) {
+    public void PlayToDist(string musicId, Vector3 originPos, Vector3 targetPos, float distance, float pitch = 0)
+    {
+        if (Vector2.Distance(originPos, new Vector2(targetPos.x, targetPos.y)) <= distance)
+        {
             Play(musicId, pitch);
         }
     }
@@ -62,7 +66,8 @@ public class SoundManager : MonoBehaviour
             _audio.pitch = sound.pitch;
             _audio.time = sound.startTime;
 
-            if (pitch != 0) {
+            if (pitch != 0)
+            {
                 _audio.pitch = pitch;
             }
             _audio.Play();
@@ -89,10 +94,11 @@ public class SoundManager : MonoBehaviour
             _audio.pitch = sound.pitch;
             _audio.time = sound.startTime;
 
-            if (pitch != 0) {
+            if (pitch != 0)
+            {
                 _audio.pitch = pitch;
             }
-            
+
             _audio.Play();
         }
     }
