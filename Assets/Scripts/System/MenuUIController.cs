@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,9 +8,11 @@ public class MainUIController : MonoBehaviour
     [SerializeField] RectTransform scrollViewContents;
     [SerializeField] RectTransform mapRect;
     [SerializeField] RectTransform arrowRect;
+    [SerializeField] GameObject settingsPannel;
     [SerializeField] Animator arrowAnimator;
     [SerializeField] Transform mapSceneTransform;
     [SerializeField] Image transitionImg;
+    [SerializeField] Text pointName;
     [SerializeField] float transitionTime;
     [SerializeField] float transitionDelay;
 
@@ -27,6 +30,10 @@ public class MainUIController : MonoBehaviour
 
     private void Update()
     {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            settingsPannel.SetActive(!settingsPannel.activeSelf);
+        }
     }
 
     #region Private Methods
@@ -60,7 +67,7 @@ public class MainUIController : MonoBehaviour
         }
         else onTransitionAction = false;
     }
-    IEnumerator MapFadeIO(bool isIn, Vector2 startPos, Vector2 endPos)
+    IEnumerator MapFadeIO(bool isIn, Vector2 startPos, Vector2 endPos, myFunc func = null)
     {
         if (lastClickedLevel == -1)
         {
@@ -92,8 +99,12 @@ public class MainUIController : MonoBehaviour
             arrowAnimator.SetTrigger("in");
             yield return new WaitForSeconds(1f);
         }
-
-        onLevelChoiceAction = false;
+        if (func == null)
+        {
+            onLevelChoiceAction = false;
+            yield break;
+        }
+        func();
     }
 
     #endregion
@@ -101,10 +112,17 @@ public class MainUIController : MonoBehaviour
     #region Public Methods
     Vector2[] endPos = {
         new Vector2(-2300, -790),
+        new Vector2(-1300, -190),
     };
     Vector2[] arrowPos = {
         new Vector2(2590, 845),
+        new Vector2(1500, 150),
     };
+    string[] posName = {
+        "KR_GoyangCity",
+        "Unknown",
+    };
+
     public void LevelClicked(int level)
     {
         if (onLevelChoiceAction) return;
@@ -115,9 +133,22 @@ public class MainUIController : MonoBehaviour
             StartCoroutine(MapFadeIO(false, LastPos, Vector2.zero));
             return;
         }
-        lastClickedLevel = level;
-        arrowRect.localPosition = arrowPos[level];
-        StartCoroutine(MapFadeIO(true, LastPos, endPos[level]));
+        else if (lastClickedLevel == -1)
+        {
+            lastClickedLevel = level;
+            arrowRect.localPosition = arrowPos[level];
+            pointName.text = posName[level];
+            StartCoroutine(MapFadeIO(true, LastPos, endPos[level]));
+            return;
+        }
+        lastClickedLevel = -1;
+        StartCoroutine(MapFadeIO(false, LastPos, Vector2.zero, () =>
+        {
+            lastClickedLevel = level;
+            arrowRect.localPosition = arrowPos[level];
+            pointName.text = posName[level];
+            StartCoroutine(MapFadeIO(true, LastPos, endPos[level]));
+        }));
     }
 
     public void OpenMap()
@@ -132,6 +163,11 @@ public class MainUIController : MonoBehaviour
         if (onTransitionAction) return;
         onTransitionAction = true;
         StartCoroutine(FadeIO(true, () => mapSceneTransform.position = new Vector2(2770, 0)));
+    }
+
+    public void OpenSettings()
+    {
+        settingsPannel.SetActive(true);
     }
 
     public void OnButtonEnter(Image img)
