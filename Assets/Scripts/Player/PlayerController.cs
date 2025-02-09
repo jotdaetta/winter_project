@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerMovement movement;
-    [SerializeField] PlayerFight fight;
+    [SerializeField] PlayerFight fighting;
     private void FixedUpdate()
     {
         movement.Move();
@@ -12,11 +12,15 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
-            fight.LockOn();
+            fighting.LockOn();
         }
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            fight.ChangeLockOn();
+            fighting.ChangeLockOn();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            movement.Dash();
         }
     }
 }

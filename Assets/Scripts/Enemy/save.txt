@@ -1,0 +1,175 @@
+using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor;
+
+public class EnemyMovement : MonoBehaviour
+{
+    [SerializeField] LayerMask wallMask;
+
+    [System.Serializable]
+    public class PatrolPoint
+    {
+        public Vector2 position;
+        public float moveTime = 1f;
+        public float waitTime = 1f;
+    }
+
+    [Header("Patrol Settings")]
+    public List<PatrolPoint> patrolPath = new List<PatrolPoint>();
+
+    [Header("Combat Settings")]
+    public float combatSpeed = 5f;
+    public float minCombatDistance = 5f;
+    public float maxCombatDistance = 7f;
+    public float findPlayerDistance = 10f;
+    public float missPlayerDistance = 10f;
+
+    [Header("References")]
+    public Transform playerTransform;
+
+    private bool inCombat = false;
+    private Coroutine patrolCoroutine;
+    [SerializeField] Rigidbody2D rb;
+    [SerializeField] CircleCollider2D circleCollider;
+
+    void Start()
+    {
+        SetCollider();
+        // StartPatrol();
+    }
+
+    void FixedUpdate()
+    {
+        if (inCombat && playerTransform != null)
+        {
+            HandleCombatMovement();
+        }
+    }
+    void SetCollider()
+    {
+        if (circleCollider != null)
+        {
+            circleCollider.radius = findPlayerDistance;
+        }
+    }
+    void HandleCombatMovement()
+    {
+        Vector2 toPlayer = (Vector2)playerTransform.position - rb.position;
+        Vector2 direction = toPlayer.normalized;
+        float distance = toPlayer.magnitude;
+        if (distance > missPlayerDistance)
+        {
+            inCombat = false;
+            return;
+        }
+        if (distance < minCombatDistance)
+            rb.linearVelocity = -direction * combatSpeed;
+        else if (distance > maxCombatDistance)
+            rb.linearVelocity = direction * combatSpeed;
+        else
+            rb.linearVelocity = Vector2.zero;
+    }
+    void OnTriggerStay2D(Collider2D other)
+    {
+        if (other.CompareTag("player"))
+        {
+            RaycastHit2D hit = Physics2D.Linecast(transform.position, playerTransform.position, wallMask);
+            if (hit.collider != null)
+            {
+                return;
+            }
+            inCombat = true;
+            // if (patrolCoroutine != null)
+            // {
+            //     StopCoroutine(patrolCoroutine);
+            // }
+        }
+    }
+
+    // void StartPatrol()
+    // {
+    //     if (patrolPath.Count > 0)
+    //     {
+    //         StartCoroutine(PatrolRoutine());
+    //     }
+    // }
+
+    // IEnumerator PatrolRoutine()
+    // {
+    //     int currentIndex = 0;
+
+    //     while (true)
+    //     {
+    //         Vector2 startPos = rb.position;
+    //         PatrolPoint target = patrolPath[currentIndex];
+    //         float elapsed = 0f;
+
+    //         // 부드러운 이동
+    //         while (elapsed < target.moveTime)
+    //         {
+    //             if (inCombat) yield break;
+
+    //             rb.MovePosition(Vector2.Lerp(
+    //                 startPos,
+    //                 target.position,
+    //                 elapsed / target.moveTime
+    //             ));
+    //             elapsed += Time.deltaTime;
+    //             yield return null;
+    //         }
+
+    //         rb.MovePosition(target.position);
+
+    //         // 대기 시간
+    //         yield return new WaitForSeconds(target.waitTime);
+
+    //         currentIndex = (currentIndex + 1) % patrolPath.Count;
+    //     }
+    // }
+
+
+    // void OnDrawGizmos()
+    // {
+    //     if (playerTransform != null)
+    //     {
+    //         // 기본 라인 색상 (녹색: 플레이어가 보이는 상태)
+    //         Gizmos.color = Color.green;
+
+    //         // 벽이 가로막고 있는지 확인
+    //         RaycastHit2D hit = Physics2D.Linecast(transform.position, playerTransform.position, wallMask);
+
+    //         if (hit.collider != null) // 벽이 감지되면 빨간색으로 변경
+    //         {
+    //             Gizmos.color = Color.red;
+    //         }
+
+    //         // 적과 플레이어 사이 라인 그리기
+    //         Gizmos.DrawLine(transform.position, playerTransform.position);
+    //     }
+    // }
+
+
+    //     void OnTriggerExit2D(Collider2D other)
+    //     {
+    //         if (other.CompareTag("player"))
+    //         {
+    //             inCombat = false;
+    //             rb.linearVelocity = Vector2.zero;
+    //             StartPatrol();
+    //         }
+    //     }
+
+    //     // 인스펙터에서 경로 시각화
+    //     void OnDrawGizmosSelected()
+    //     {
+    //         Gizmos.color = Color.cyan;
+    //         foreach (PatrolPoint point in patrolPath)
+    //         {
+    //             Gizmos.DrawWireSphere(point.position, 0.3f);
+    // #if UNITY_EDITOR
+    //             Handles.Label(point.position, $"Point {patrolPath.IndexOf(point)}");
+    // #endif
+    //         }
+    //     }
+}

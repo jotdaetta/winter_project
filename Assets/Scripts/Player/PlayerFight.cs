@@ -6,44 +6,58 @@ using UnityEngine;
 public class PlayerFight : MonoBehaviour
 {
     [SerializeField] LayerMask WallLayer;
-    List<GameObject> enemies = null;
+    [SerializeField] List<GameObject> enemies = new();
     SpriteRenderer targetRenderer = null;
-    int index;
-    bool LockedOn;
+    int index, renderStack = 0;
+    bool lockedOn;
+    float findingInterval;
     private void Update()
     {
-        if (LockedOn && targetRenderer == null && enemies != null)
-            ChangeLockOn();
-        CheckWallBang();
-    }
-    void CheckWallBang()
-    {
-        RaycastHit2D hit = Physics2D.Linecast(transform.position, targetRenderer.transform.position, WallLayer);
-        if (hit.collider != null)
-        {
-            ChangeLockOn();
-        }
+        CheckTargetChangeCondition();
     }
     public void LockOn()
     {
-        if (LockedOn)
+        if (lockedOn)
         {
-            LockedOn = false;
+            lockedOn = false;
             SetRenderer(true);
             return;
         }
-        LockedOn = true;
-        enemies = GameObject.FindGameObjectsWithTag("enemy").ToList();
-        index = FindMinDistEnemy();
-        SetRenderer();
+        enemies = new();
+        lockedOn = true;
+        SetLockOn();
     }
     public void ChangeLockOn()
     {
-        if (enemies == null || !LockedOn) return;
-        enemies.RemoveAt(index);
+        if (index < enemies.Count)
+            enemies[index] = null;
+        SetLockOn();
+    }
+    bool CheckWallBang(Vector2 start_pos, Vector2 target_pos)
+    {
+        return Physics2D.Linecast(start_pos, target_pos, WallLayer).collider != null;
+    }
+    List<GameObject> DeleteBeyondWallEnemy(GameObject[] enemies)
+    {
+        for (int i = enemies.Length - 1; i >= 0; i--)
+        {
+            if (CheckWallBang(transform.position, enemies[i].transform.position))
+                enemies[i] = null;
+        }
+        return enemies.Where(e => e != null).ToList();
+    }
+    void SetLockOn()
+    {
+        enemies = enemies.Where(e => e != null).ToList();
         if (enemies.Count == 0)
-            enemies = GameObject.FindGameObjectsWithTag("enemy").ToList();
+            enemies = DeleteBeyondWallEnemy(GameObject.FindGameObjectsWithTag("enemy"));
+        if (enemies.Count == 0) return;
         index = FindMinDistEnemy();
+        if (index == -1)
+        {
+            SetRenderer(true);
+            return;
+        }
         SetRenderer();
     }
     void SetRenderer(bool off = false)
@@ -53,24 +67,64 @@ public class PlayerFight : MonoBehaviour
             targetRenderer.color = Color.black;
             if (off) return;
         }
-        targetRenderer = enemies[index].transform.GetChild(0).GetComponent<SpriteRenderer>();
-        targetRenderer.color = Color.white;
+        if (index >= 0 && index < enemies.Count)
+        {
+            SpriteRenderer renderer = enemies[index].transform.GetChild(0).GetComponent<SpriteRenderer>();
+            print(renderStack);
+            if (targetRenderer != null && renderer == targetRenderer && renderStack < 3)
+            {
+                renderStack++;
+                ChangeLockOn();
+                return;
+            }
+            renderStack = 0;
+            targetRenderer = renderer;
+            targetRenderer.color = Color.white;
+        }
     }
     int FindMinDistEnemy()
     {
-        float min = 0;
+        float min = float.MaxValue;
         int index = 0;
-
         for (int i = 0; i < enemies.Count; i++)
         {
             float dist = Vector2.Distance(transform.position, enemies[i].transform.position);
-            if (i == 0) min = dist;
-            else if (min > dist)
+            if (min > dist)
             {
                 min = dist;
                 index = i;
             }
         }
         return index;
+    }
+    void CheckTargetChangeCondition()
+    {
+        if (!lockedOn) return;
+        // enemy zero
+        if (enemies.Count == 0)
+        {
+            SetRenderer(true);
+            EnemyFindingCondition();
+        }
+        //enemy dead
+        if (targetRenderer == null)
+        {
+            SetLockOn();
+            return;
+        }
+        // wallbang
+        if (CheckWallBang(transform.position, targetRenderer.transform.position))
+        {
+            ChangeLockOn();
+        }
+    }
+    void EnemyFindingCondition()
+    {
+        findingInterval += Time.deltaTime;
+        if (findingInterval > 0.2f)
+        {
+            findingInterval = 0;
+            SetLockOn();
+        }
     }
 }

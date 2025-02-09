@@ -22,6 +22,7 @@ public class MainUIController : MonoBehaviour
     bool onLevelChoiceAction = false;
     int lastClickedLevel = -1;
     Vector2 LastPos = Vector2.zero;
+    Image lastEnterImage;
 
     private void Start()
     {
@@ -32,7 +33,7 @@ public class MainUIController : MonoBehaviour
     {
         if (Input.GetKeyUp(KeyCode.Escape))
         {
-            settingsPannel.SetActive(!settingsPannel.activeSelf);
+            Settings();
         }
     }
 
@@ -165,13 +166,15 @@ public class MainUIController : MonoBehaviour
         StartCoroutine(FadeIO(true, () => mapSceneTransform.position = new Vector2(2770, 0)));
     }
 
-    public void OpenSettings()
+    public void Settings()
     {
-        settingsPannel.SetActive(true);
+        settingsPannel.SetActive(!settingsPannel.activeSelf);
+        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
 
     public void OnButtonEnter(Image img)
     {
+        lastEnterImage = img;
         Color color = new Color(1, 1, 1, 0.02f);
         img.color = color;
     }
