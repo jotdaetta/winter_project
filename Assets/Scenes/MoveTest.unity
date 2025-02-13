@@ -129,7 +129,7 @@ GameObject:
   m_Component:
   - component: {fileID: 35107003}
   - component: {fileID: 35107005}
-  - component: {fileID: 35107004}
+  - component: {fileID: 35107006}
   m_Layer: 0
   m_Name: outline
   m_TagString: Untagged
@@ -152,33 +152,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1978215471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &35107004
-Rigidbody2D:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 35107002}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!212 &35107005
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -234,6 +207,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &35107006
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 35107002}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: 0, y: 0}
+  m_Radius: 0.5
 --- !u!1 &351840376
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,9 +411,9 @@ GameObject:
   - component: {fileID: 418353607}
   - component: {fileID: 418353611}
   - component: {fileID: 418353613}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: player
-  m_TagString: player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -422,10 +431,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 10
-  dashSpeed: 5
-  dashTime: 0.1
+  dashSpeed: 25
+  dashTime: 0.3
   dashCool: 3
   dashable: 1
+  rb: {fileID: 418353611}
+  spriteRenderer: {fileID: 418353609}
 --- !u!114 &418353608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -504,7 +515,7 @@ Transform:
   m_GameObject: {fileID: 418353606}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.13, y: -2.57, z: 0}
+  m_LocalPosition: {x: -4.28, y: -9.92, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -523,7 +534,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDamping: 0
+  m_LinearDamping: 5
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -939,7 +950,7 @@ Transform:
   m_GameObject: {fileID: 1122044128}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.57, y: -0.25, z: 0}
+  m_LocalPosition: {x: -4.69, y: -0.94, z: 0}
   m_LocalScale: {x: 3.2662475, y: 6.0638, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1286,6 +1297,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1978215471}
+  - component: {fileID: 1978215476}
+  - component: {fileID: 1978215475}
   - component: {fileID: 1978215474}
   - component: {fileID: 1978215470}
   - component: {fileID: 1978215467}
@@ -1323,7 +1336,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &1978215470
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1388,7 +1401,7 @@ Transform:
   m_GameObject: {fileID: 1978215466}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.02, y: 5.59, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -1443,10 +1456,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c0d0ee312524d4882e83cf08d8162d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  wallMask:
+  wallLayer:
     serializedVersion: 2
     m_Bits: 64
-  patrolPath: []
+  patrolPath:
+  - position: {x: 4, y: 5}
+    moveTime: 1
+    waitTime: 0
+  - position: {x: 0, y: 6}
+    moveTime: 1
+    waitTime: 0
+  - position: {x: -4, y: 15}
+    moveTime: 1
+    waitTime: 3
+  - position: {x: -15, y: 0}
+    moveTime: 3
+    waitTime: 0
+  - position: {x: -5, y: 7}
+    moveTime: 3
+    waitTime: 1
   combatSpeed: 5
   minCombatDistance: 5
   maxCombatDistance: 7
@@ -1456,8 +1484,34 @@ MonoBehaviour:
   rb: {fileID: 1978215467}
   circleCollider: {fileID: 1978215473}
   gridWorldSize: {x: 20, y: 20}
-  nodeRadius: 0.5
+  nodeRadius: 1
   pathUpdateInterval: 0.5
+--- !u!114 &1978215475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978215466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b265330d6304d70b4f0727fe20fb76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1978215476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1978215466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae3f6a488657441c48f447658bfe9c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 1978215474}
+  fight: {fileID: 1978215475}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

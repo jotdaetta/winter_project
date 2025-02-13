@@ -24,6 +24,7 @@ public class PlayerFight : MonoBehaviour
             return;
         }
         enemies = new();
+        renderStack = 3;
         lockedOn = true;
         SetLockOn();
     }

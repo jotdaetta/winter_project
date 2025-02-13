@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] LayerMask wallMask;
+    [SerializeField] LayerMask wallLayer;
 
     [System.Serializable]
     public class PatrolPoint
@@ -29,6 +29,7 @@ public class EnemyMovement : MonoBehaviour
     public Transform playerTransform;      // 플레이어 Transform
 
     private bool inCombat = false;         // 전투 모드 여부
+    private Coroutine patrolCoroutine;
     [SerializeField] Rigidbody2D rb;        // Rigidbody2D 컴포넌트 참조
     [SerializeField] CircleCollider2D circleCollider; // 플레이어 탐지를 위한 콜라이더
 
@@ -43,18 +44,9 @@ public class EnemyMovement : MonoBehaviour
     {
         SetCollider();
         StartCoroutine(UpdatePath());
-        // StartPatrol();
+        StartPatrol();
     }
 
-    void FixedUpdate()
-    {
-        if (inCombat && playerTransform != null)
-        {
-            FollowPath();
-        }
-    }
-
-    // 플레이어 탐지를 위한 콜라이더의 반지름을 설정
     void SetCollider()
     {
         if (circleCollider != null)
@@ -63,10 +55,31 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // 경로를 따라 이동하는 함수
-    void FollowPath()
+    void StartPatrol()
     {
-        if (path != null && path.Count > 0)
+        if (patrolPath.Count > 0)
+        {
+            patrolCoroutine = StartCoroutine(PatrolRoutine());
+        }
+    }
+
+    public void FollowPlayer()
+    {
+        if (!inCombat || playerTransform == null) return;
+        Vector2 toPlayer = (Vector2)playerTransform.position - rb.position;
+        Vector2 direction = toPlayer.normalized;
+        float distance = toPlayer.magnitude;
+        if (distance > missPlayerDistance)
+        {
+            inCombat = false;
+            // if (patrolPath.Count > 0)  이거 다시시작할지 말지 물어보기
+            // {
+            //     patrolCoroutine = StartCoroutine(PatrolRoutine());
+            // }
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        if (CheckWall() && path != null && path.Count > currentPathIndex)
         {
             // 현재 목표 노드의 월드 위치 (2D 환경이므로 z는 0)
             Vector2 targetPos = path[currentPathIndex].worldPosition;
@@ -87,40 +100,57 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            // 경로가 없으면 기존 전투 이동 로직 사용 (참고용)
-            HandleCombatMovement();
+            if (distance < minCombatDistance)
+                rb.linearVelocity = -direction * combatSpeed;
+            else if (distance > maxCombatDistance)
+                rb.linearVelocity = direction * combatSpeed;
+            else
+                rb.linearVelocity = Vector2.zero;
         }
     }
 
-    // 기존 전투 이동 로직 (경로가 없을 경우의 대체 동작)
-    void HandleCombatMovement()
+    IEnumerator PatrolRoutine()
     {
-        Vector2 toPlayer = (Vector2)playerTransform.position - rb.position;
-        Vector2 direction = toPlayer.normalized;
-        float distance = toPlayer.magnitude;
-        if (distance > missPlayerDistance)
+        print("패트롤 시작");
+        int currentIndex = 0;
+
+        while (true)
         {
-            inCombat = false;
-            rb.linearVelocity = Vector2.zero;
-            return;
+            print("이동");
+            Vector2 startPos = rb.position;
+            PatrolPoint target = patrolPath[currentIndex];
+            float elapsed = 0f;
+
+            // 부드러운 이동
+            while (elapsed < target.moveTime)
+            {
+                if (inCombat) yield break;
+
+                rb.MovePosition(Vector2.Lerp(
+                    startPos,
+                    target.position,
+                    elapsed / target.moveTime
+                ));
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            rb.MovePosition(target.position);
+
+            // 대기 시간
+            yield return new WaitForSeconds(target.waitTime);
+
+            currentIndex = (currentIndex + 1) % patrolPath.Count;
         }
-        if (distance < minCombatDistance)
-            rb.linearVelocity = -direction * combatSpeed;
-        else if (distance > maxCombatDistance)
-            rb.linearVelocity = direction * combatSpeed;
-        else
-            rb.linearVelocity = Vector2.zero;
     }
 
-    // 일정 주기마다 현재 적의 위치와 플레이어의 위치를 기준으로 A* 알고리즘을 사용해 경로를 계산
     IEnumerator UpdatePath()
     {
         while (true)
         {
             if (inCombat && playerTransform != null)
             {
-                // 적의 현재 위치를 중심으로 그리드 생성
-                Grid grid = new Grid(rb.position, gridWorldSize, nodeRadius, wallMask);
+                Grid grid = new Grid(rb.position, gridWorldSize, nodeRadius, wallLayer);
                 Node startNode = grid.NodeFromWorldPoint(rb.position);
                 Node targetNode = grid.NodeFromWorldPoint(playerTransform.position);
                 List<Node> newPath = AStar.FindPath(startNode, targetNode, grid);
@@ -134,28 +164,41 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    // 플레이어와 충돌 중일 때 호출됨 (플레이어 탐지)
     void OnTriggerStay2D(Collider2D other)
     {
-        if (other.CompareTag("player"))
+        if (other.CompareTag("Player"))
         {
-            // 적과 플레이어 사이에 wallMask에 해당하는 장애물이 있는지 확인
-            RaycastHit2D hit = Physics2D.Linecast(transform.position, playerTransform.position, wallMask);
-            if (hit.collider != null)
+            if (playerTransform == null)
             {
-                return;
+                playerTransform = other.transform;
             }
+            if (CheckWall()) return;
             inCombat = true;
-            // 필요시 순찰 중단 등의 추가 처리를 할 수 있음
+            if (patrolCoroutine != null)
+            {
+                StopCoroutine(patrolCoroutine);
+            }
+        }
+    }
+    bool CheckWall()
+    {
+        if (playerTransform == null) return false;
+        return Physics2D.Linecast(rb.position, playerTransform.position, wallLayer).collider != null;
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        foreach (PatrolPoint point in patrolPath)
+        {
+            Gizmos.DrawWireSphere(point.position, 0.3f);
+#if UNITY_EDITOR
+            Handles.Label(point.position, $"Point {patrolPath.IndexOf(point)}");
+#endif
         }
     }
 }
 
-// ------------------------------
-// A* 알고리즘 관련 클래스들
-// ------------------------------
-
-// A* 알고리즘에서 사용되는 노드 클래스 (각 그리드 셀)
 public class Node
 {
     public bool walkable;         // 해당 노드가 이동 가능한지 여부
@@ -214,7 +257,7 @@ public class Grid
             for (int y = 0; y < gridSizeY; y++)
             {
                 Vector2 worldPoint = bottomLeft + Vector2.right * (x * nodeDiameter + nodeRadius) +
-                                     Vector2.up * (y * nodeDiameter + nodeRadius);
+                Vector2.up * (y * nodeDiameter + nodeRadius);
                 // 해당 지점에 wallMask에 걸리는 장애물이 있으면 이동 불가능
                 bool walkable = (Physics2D.OverlapCircle(worldPoint, nodeRadius, wallMask) == null);
                 nodes[x, y] = new Node(walkable, worldPoint, x, y);
@@ -229,8 +272,10 @@ public class Grid
         float percentY = (worldPosition.y - (origin.y - gridWorldSize.y / 2)) / gridWorldSize.y;
         percentX = Mathf.Clamp01(percentX);
         percentY = Mathf.Clamp01(percentY);
-        int x = Mathf.RoundToInt((gridSizeX - 1) * percentX);
-        int y = Mathf.RoundToInt((gridSizeY - 1) * percentY);
+        int x = Mathf.FloorToInt((gridSizeX) * percentX);
+        int y = Mathf.FloorToInt((gridSizeY) * percentY);
+        x = Mathf.Clamp(x, 0, gridSizeX - 1);
+        y = Mathf.Clamp(y, 0, gridSizeY - 1);
         return nodes[x, y];
     }
 

@@ -6,5 +6,6 @@ public class EnemyContoller : MonoBehaviour
     [SerializeField] EnemyFight fight;
     private void FixedUpdate()
     {
+        movement.FollowPlayer();
     }
 }
