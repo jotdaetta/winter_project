@@ -16,6 +16,8 @@ public class CamManager : MonoBehaviour
     IEnumerator dutchRoutine = null;
     IEnumerator offRoutine = null;
 
+    Coroutine shaking = null;
+
     float frame = 60;
 
     public bool autoSpector;
@@ -71,7 +73,17 @@ public class CamManager : MonoBehaviour
 
     public void Shake(float strength = 1, float dur = 0.05f)
     {
-        StartCoroutine(_shake(strength, dur));
+        shaking = StartCoroutine(_shake(strength, dur));
+    }
+
+    public void StopShake()
+    {
+        if (shaking == null) return;
+
+        StopCoroutine(shaking);
+
+        noise.AmplitudeGain = 0;
+        noise.FrequencyGain = 0;
     }
 
     IEnumerator _closeUp(float orSize, float dutch, float dur)

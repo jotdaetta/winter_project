@@ -18,9 +18,14 @@ public class PlayerController : MonoBehaviour
         {
             fighting.ChangeLockOn();
         }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            fighting.Execute();
+        }
         if (Input.GetKeyDown(KeyCode.L))
         {
             movement.Dash();
         }
+
     }
 }

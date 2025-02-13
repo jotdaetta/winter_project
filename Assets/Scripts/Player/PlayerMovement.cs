@@ -31,23 +31,24 @@ public class PlayerMovement : MonoBehaviour
         onDash = true;
         dashable = false;
         rb.linearVelocity = Vector2.zero;
+        Mujuk();
         rb.AddForce(moveVector * dashSpeed, ForceMode2D.Impulse);
-        StartCoroutine(Mujuk(dashTime + 0.1f));
-        StartCoroutine(Cooltime(dashTime, dashCool, () => { onDash = false; rb.linearVelocity = Vector2.zero; }, () => dashable = true));
+        StartCoroutine(Cooltime(dashTime, dashCool, () =>
+        {
+            onDash = false;
+            Mujuk(true);
+        }, () => dashable = true));
     }
-    IEnumerator Mujuk(float cool)
+    void Mujuk(bool off = false)
     {
-        gameObject.layer = 8;
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        yield return new WaitForSeconds(cool);
-        gameObject.layer = 3;
-        spriteRenderer.color = new Color(1, 1, 1, 1);
+        gameObject.layer = off ? 3 : 8;
+        spriteRenderer.color = new Color(1, 1, 1, off ? 1 : 0.4f);
     }
     IEnumerator Cooltime(float duration, float cool, MyFunc func0, MyFunc func1)
     {
-        yield return new WaitForSeconds(dashTime);
+        yield return new WaitForSeconds(duration);
         func0();
-        yield return new WaitForSeconds(dashCool);
+        yield return new WaitForSeconds(cool);
         func1();
     }
 }
