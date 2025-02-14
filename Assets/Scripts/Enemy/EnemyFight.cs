@@ -2,15 +2,10 @@ using UnityEngine;
 
 public class EnemyFight : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] int hp = 10;
+    public void TakeDamage(int damage)
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        hp -= damage;
+        print("hp: " + hp);
     }
 }

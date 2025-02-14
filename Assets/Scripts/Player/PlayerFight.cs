@@ -165,7 +165,7 @@ public class PlayerFight : MonoBehaviour
     void ExecutionGaugeFill()
     {
         if (!executing) return;
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.X))
         {
             ex_process += ex_processAdd;
         }
