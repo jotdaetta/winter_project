@@ -10,7 +10,7 @@ public class Gun : Weapon
     [SerializeField] private int totalAmmoCount;
     [SerializeField] private int ammoPerShot = 1;
 
-    public virtual bool Attack()
+    public virtual bool Attack(Vector2 direction)
     {
         if (curAmmoCount <= 0)
         {
@@ -22,7 +22,9 @@ public class Gun : Weapon
         curAmmoCount -= shootingAmmoCount;
 
         // 레이캐스트로 타격 처리
-        if (Physics.Raycast(transform.position, transform.forward, out RaycastHit hit, maxDistance, detectLayer))
+        RaycastHit2D hit = Physics2D.Raycast((Vector2)transform.position, direction, maxDistance, detectLayer);
+
+        if (hit)
         {
             if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
@@ -50,4 +52,10 @@ public class Gun : Weapon
             totalAmmoCount = 0;              // 인벤토리 총알은 모두 사용됨
         }
     }
+
+    public virtual int[] GetGunInfo()
+    {
+        return new int[] { maxAmmoCount, curAmmoCount, totalAmmoCount, ammoPerShot };
+    }
+
 }

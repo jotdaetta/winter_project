@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,13 +17,39 @@ public class PlayerMovement : MonoBehaviour
 
 
     float x = 0, y = 0;
+    bool locked;
+    Vector2 dirVector;
     public void Move()
     {
         if (onDash) return;
-        x = Input.GetAxisRaw("Horizontal");
+        x = Input.GetAxisRaw("Horizontal"); // 이거 키보드기준 getaxis면 조작감 구린데 패드는 모르겠음 ==========================================
         y = Input.GetAxisRaw("Vertical");
         moveVector = new Vector2(x, y).normalized;
         rb.linearVelocity = moveVector * moveSpeed;
+        if (!(x == 0 && y == 0))
+        {
+            if (!locked && lastLocked) lastLocked = false;
+            dirVector = new Vector2(x, y);
+        }
+    }
+
+    bool lastLocked;
+    public void Turn(bool locked, Vector2 targetpos)
+    {
+        this.locked = locked;
+        Vector2 direction;
+        if (locked)
+        {
+            lastLocked = true;
+            direction = targetpos - (Vector2)transform.position;
+        }
+        else
+        {
+            if (lastLocked) return;
+            direction = dirVector;
+        }
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        rb.SetRotation(angle);
     }
 
     public void Dash()

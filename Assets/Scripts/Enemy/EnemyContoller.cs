@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyContoller : MonoBehaviour, IDamageable
+public class EnemyContoller : MonoBehaviour
 {
     [SerializeField] EnemyMovement movement;
     [SerializeField] EnemyFight fight;
@@ -8,10 +8,5 @@ public class EnemyContoller : MonoBehaviour, IDamageable
     private void FixedUpdate()
     {
         movement.FollowPlayer();
-    }
-
-    public void TakeDamage(int damage)
-    {
-        fight.TakeDamage(damage);
     }
 }

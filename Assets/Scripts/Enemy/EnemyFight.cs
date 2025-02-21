@@ -1,8 +1,8 @@
 using UnityEngine;
 
-public class EnemyFight : MonoBehaviour
+public class EnemyFight : MonoBehaviour, IDamageable
 {
-    [SerializeField] int hp = 10;
+    public int hp = 10;
     public void TakeDamage(int damage)
     {
         hp -= damage;

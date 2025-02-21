@@ -5,8 +5,11 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerFight : MonoBehaviour
+public class PlayerFight : MonoBehaviour, IDamageable
 {
+    public int hp = 10;
+    public Vector2 aimDir = new();
+
     delegate void MyFunc();
     [SerializeField] CamManager camManager;
 
@@ -17,15 +20,20 @@ public class PlayerFight : MonoBehaviour
     private void Update()
     {
         CheckTargetChangeCondition();
-        ExecutionGaugeFill();
+        SetAim();
     }
-
+    #region Damage
+    public void TakeDamage(int damage)
+    {
+        hp -= damage;
+    }
+    #endregion
     #region Lock On
     [Header("록온")]
-    [SerializeField] List<GameObject> enemies = new();
     [SerializeField] LayerMask WallLayer;
+    List<GameObject> enemies = new();
     SpriteRenderer targetRenderer = null;
-    bool lockedOn;
+    public bool lockedOn;
     float findingInterval;
     int index, renderStack = 0;
     public void LockOn()
@@ -162,13 +170,10 @@ public class PlayerFight : MonoBehaviour
         camManager.Shake(ex_shakeStrength, ex_time);
         camManager.CloseUp(2, 1.5f, ex_time);
     }
-    void ExecutionGaugeFill()
+    public void ExecutionGaugeFill()
     {
         if (!executing) return;
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-            ex_process += ex_processAdd;
-        }
+        ex_process += ex_processAdd;
     }
     void ExecutionGaugeSet()
     {
@@ -197,6 +202,11 @@ public class PlayerFight : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         func();
+    }
+    void SetAim()
+    {
+        if (targetRenderer == null) return;
+        aimDir = targetRenderer.transform.position;
     }
     #endregion
 }
