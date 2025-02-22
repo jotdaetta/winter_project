@@ -1,37 +1,19 @@
 fileFormatVersion: 2
-guid: 3fbef053a7101478f90ae28d3bc8490c
+guid: ae5812518f5524b6e9f6d5e747aa68a3
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5886609986381742730
-    second: playerMoveAni_0
+      213: -5267630289049655122
+    second: playerGunFire_0
   - first:
-      213: 7222614394967987808
-    second: playerMoveAni_1
+      213: -1209295459286601871
+    second: playerGunFire_1
   - first:
-      213: 8565792026736056152
-    second: playerMoveAni_2
+      213: 45002752375283144
+    second: playerGunFire_2
   - first:
-      213: -191610749713603346
-    second: playerMoveAni_3
-  - first:
-      213: -2923620756499126272
-    second: playerMoveAni_4
-  - first:
-      213: -2990404582363810421
-    second: playerMoveAni_5
-  - first:
-      213: 6141639199837124671
-    second: playerMoveAni_6
-  - first:
-      213: 7720982158961971052
-    second: playerMoveAni_7
-  - first:
-      213: 7346325002561211668
-    second: playerMoveAni_8
-  - first:
-      213: 5983557074384033881
-    second: playerMoveAni_9
+      213: -454840936083342061
+    second: playerGunFire_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -127,122 +109,12 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: playerMoveAni_0
+      name: playerGunFire_0
       rect:
         serializedVersion: 2
-        x: 115
-        y: 9383
-        width: 609
-        height: 302
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 67df27ee76f8e4ea0800000000000000
-      internalID: -5886609986381742730
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerMoveAni_1
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 8386
-        width: 609
-        height: 298
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 06690b17681eb3460800000000000000
-      internalID: 7222614394967987808
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerMoveAni_2
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 7385
-        width: 609
-        height: 298
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 857d97df67ecfd670800000000000000
-      internalID: 8565792026736056152
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerMoveAni_3
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 6384
-        width: 609
-        height: 303
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ee4ac20d903475df0800000000000000
-      internalID: -191610749713603346
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerMoveAni_4
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 5383
-        width: 609
-        height: 303
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 00829e679663d67d0800000000000000
-      internalID: -2923620756499126272
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: playerMoveAni_5
-      rect:
-        serializedVersion: 2
-        x: 115
-        y: 4387
-        width: 590
+        x: 121
+        y: 2388
+        width: 744
         height: 293
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -252,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b85318d40e2ff76d0800000000000000
-      internalID: -2990404582363810421
+      spriteID: ea86b15492e95e6b0800000000000000
+      internalID: -5267630289049655122
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerMoveAni_6
+      name: playerGunFire_1
       rect:
         serializedVersion: 2
-        x: 115
-        y: 3386
-        width: 590
-        height: 298
+        x: 113
+        y: 1986
+        width: 744
+        height: 293
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -274,20 +146,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f38f7ecff4c7b3550800000000000000
-      internalID: 6141639199837124671
+      spriteID: 17faab8df28b73fe0800000000000000
+      internalID: -1209295459286601871
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerMoveAni_7
+      name: playerGunFire_2
       rect:
         serializedVersion: 2
-        x: 115
-        y: 2385
-        width: 590
-        height: 298
+        x: 121
+        y: 1389
+        width: 597
+        height: 292
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -296,52 +168,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: c6f8e06bd50762b60800000000000000
-      internalID: 7720982158961971052
+      spriteID: 8cd5e3dc3c1ef9000800000000000000
+      internalID: 45002752375283144
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerMoveAni_8
+      name: playerGunFire_3
       rect:
         serializedVersion: 2
-        x: 115
-        y: 1384
-        width: 590
-        height: 303
+        x: 119
+        y: 956
+        width: 599
+        height: 291
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 41d4b36daa363f560800000000000000
-      internalID: 7346325002561211668
+      spriteID: d2de41c88739d4d778210889e18f99b2
+      internalID: 760180908
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: playerMoveAni_9
+      name: playerGunFire_4
       rect:
         serializedVersion: 2
-        x: 115
-        y: 383
-        width: 590
-        height: 303
+        x: 121
+        y: 389
+        width: 597
+        height: 291
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 9589fe7f47dd90350800000000000000
-      internalID: 5983557074384033881
+      spriteID: ec82d2af48b614eee995d1e5f6d8d7ac
+      internalID: 1952098219
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: playerGunFire_5
+      rect:
+        serializedVersion: 2
+        x: 119
+        y: 59
+        width: 599
+        height: 292
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d60315c65a244f858ca779caee3227c
+      internalID: 766514403
       vertices: []
       indices: 
       edges: []
@@ -350,7 +244,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: cde0bee7b350145f0ba6b7d83b127cda
+    spriteID: f7bdb60aeb27349a79329122e9c719d8
     internalID: 0
     vertices: []
     indices: 
@@ -360,16 +254,12 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      playerMoveAni_0: -5886609986381742730
-      playerMoveAni_1: 7222614394967987808
-      playerMoveAni_2: 8565792026736056152
-      playerMoveAni_3: -191610749713603346
-      playerMoveAni_4: -2923620756499126272
-      playerMoveAni_5: -2990404582363810421
-      playerMoveAni_6: 6141639199837124671
-      playerMoveAni_7: 7720982158961971052
-      playerMoveAni_8: 7346325002561211668
-      playerMoveAni_9: 5983557074384033881
+      playerGunFire_0: -5267630289049655122
+      playerGunFire_1: -1209295459286601871
+      playerGunFire_2: 45002752375283144
+      playerGunFire_3: 760180908
+      playerGunFire_4: 1952098219
+      playerGunFire_5: 766514403
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -348,7 +348,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &176080387
 RectTransform:
   m_ObjectHideFlags: 0
@@ -365,7 +365,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -101.8}
+  m_AnchoredPosition: {x: 0, y: -142}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176080388
@@ -503,8 +503,10 @@ GameObject:
   - component: {fileID: 418353614}
   - component: {fileID: 418353612}
   - component: {fileID: 418353607}
+  - component: {fileID: 418353616}
   - component: {fileID: 418353611}
-  - component: {fileID: 418353613}
+  - component: {fileID: 418353615}
+  - component: {fileID: 418353617}
   m_Layer: 3
   m_Name: player
   m_TagString: Player
@@ -524,6 +526,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ae28b60429fed4685192a53557afeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  moveSpeedMul: 1
   moveSpeed: 10
   dashSpeed: 25
   dashTime: 0.3
@@ -543,7 +546,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e92109d1bcf8467782943818938dd85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aniController: {fileID: 418353616}
   movement: {fileID: 418353607}
+  moveSlow: 0
   fighting: {fileID: 418353612}
   ui: {fileID: 418353614}
 --- !u!212 &418353609
@@ -589,8 +594,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_SortingOrder: 1
+  m_Sprite: {fileID: -5886609986381742730, guid: 3fbef053a7101478f90ae28d3bc8490c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -610,9 +615,9 @@ Transform:
   m_GameObject: {fileID: 418353606}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.46, y: -1.46, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 7.3183, y: -3.8125, z: 0}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -642,7 +647,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &418353612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -664,9 +669,11 @@ MonoBehaviour:
   curAmmoCount: 8
   totalAmmoCount: 32
   ammoPerShot: 1
+  shootingSpeed: 0.5
   reloadingTime: 1
   bulletTrailPrefab: {fileID: 4792714288801145973, guid: 2ceea44f7d57b4d93be6206c3358b0d5, type: 3}
   trailDuration: 0.05
+  shootOffset: {x: -0.175, y: 1}
   hp: 10
   aimDir: {x: 0, y: 0}
   camManager: {fileID: 1655828075}
@@ -680,7 +687,57 @@ MonoBehaviour:
   ex_processSub: 0.7
   ex_processAdd: 0.15
   ex_shakeStrength: 1
---- !u!58 &418353613
+--- !u!114 &418353614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418353606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ac9f7eb867894d96aeaf702ebf50cc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text_hp: {fileID: 176080388}
+  text_ammo: {fileID: 325433804}
+  slider_reload: {fileID: 951295171}
+--- !u!95 &418353615
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418353606}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0fcfa892e32714644aa67992d93b6baf, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &418353616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 418353606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4b5555decae848d7b334b7315d7fa65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 418353615}
+--- !u!58 &418353617
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -714,23 +771,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.5
---- !u!114 &418353614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 418353606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ac9f7eb867894d96aeaf702ebf50cc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  text_hp: {fileID: 176080388}
-  text_ammo: {fileID: 325433804}
-  slider_reload: {fileID: 951295171}
+  m_Offset: {x: -0.71, y: 0}
+  m_Radius: 1.7
 --- !u!1 &474332658
 GameObject:
   m_ObjectHideFlags: 0
@@ -1699,7 +1741,7 @@ Transform:
   m_GameObject: {fileID: 1655828073}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.46, y: -1.46, z: -10}
+  m_LocalPosition: {x: 7.3183, y: -3.8125, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1976,7 +2018,7 @@ Transform:
   m_GameObject: {fileID: 1953662237}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.46, y: -1.46, z: -10}
+  m_LocalPosition: {x: 7.3183, y: -3.8125, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2274,9 +2316,11 @@ MonoBehaviour:
   curAmmoCount: 0
   totalAmmoCount: 0
   ammoPerShot: 1
+  shootingSpeed: 0.4
   reloadingTime: 0.1
   bulletTrailPrefab: {fileID: 0}
   trailDuration: 0.05
+  shootOffset: {x: 0, y: 0}
   hp: 10
 --- !u!114 &1978215476
 MonoBehaviour:

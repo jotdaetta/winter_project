@@ -7,32 +7,34 @@ public class Gun : Weapon
     [SerializeField] private int curAmmoCount;
     [SerializeField] private int totalAmmoCount;
     [SerializeField] private int ammoPerShot = 1;
+    [SerializeField] private float shootingSpeed = 0.4f;
     [SerializeField] private float reloadingTime = 1;
 
-    // 총알 이펙트 프리팹 (LineRenderer가 포함된 프리팹)
     [SerializeField] private GameObject bulletTrailPrefab;
-    // 총알 트레일 지속 시간 (초)
     [SerializeField] private float trailDuration = 0.05f;
+
+    [SerializeField] Vector2 shootOffset = new();
+
+    bool shootable = true;
 
     public virtual bool Attack(Vector2 direction)
     {
+        shootable = false;
+        StartCoroutine(ShootingCool());
+
         if (curAmmoCount <= 0)
         {
-            return false; // 총알이 없으면 공격 실패
+            return false;
         }
 
-        // 사용 가능한 총알 계산
         int shootingAmmoCount = Mathf.Min(ammoPerShot, curAmmoCount);
         curAmmoCount -= shootingAmmoCount;
 
-        // 레이캐스트로 타격 처리
-        Vector2 startPoint = (Vector2)transform.position;
+        Vector2 startPoint = (Vector2)transform.position + (Vector2)transform.right * shootOffset.y + (Vector2)transform.up * shootOffset.x;
         RaycastHit2D hit = Physics2D.Raycast(startPoint, direction.normalized, maxDistance, detectLayer);
 
-        // 명중 위치 계산: 타격한 대상이 있으면 hit.point, 없으면 최대 거리까지
         Vector2 endPoint = hit ? hit.point : startPoint + direction.normalized * maxDistance;
 
-        // Bullet Trail 효과 생성
         CreateBulletTrail(startPoint, endPoint);
 
         if (hit)
@@ -43,12 +45,11 @@ public class Gun : Weapon
             }
         }
 
-        return true; // 공격 성공
+        return true;
     }
 
     private void CreateBulletTrail(Vector2 startPoint, Vector2 endPoint)
     {
-        // 프리팹 인스턴스화
         GameObject trail = Instantiate(bulletTrailPrefab, startPoint, Quaternion.identity);
         LineRenderer lr = trail.GetComponent<LineRenderer>();
 
@@ -57,7 +58,6 @@ public class Gun : Weapon
             lr.SetPosition(0, startPoint);
             lr.SetPosition(1, endPoint);
         }
-        // 트레일을 trailDuration 후 제거
         StartCoroutine(DestroyTrail(trail, trailDuration));
     }
 
@@ -85,6 +85,12 @@ public class Gun : Weapon
         }
     }
 
+    IEnumerator ShootingCool()
+    {
+        yield return new WaitForSeconds(shootingSpeed);
+        shootable = true;
+    }
+
     public bool CheckReloadable()
     {
         return maxAmmoCount != curAmmoCount;
@@ -101,5 +107,9 @@ public class Gun : Weapon
     public float getReloadTime
     {
         get { return reloadingTime; }
+    }
+    public bool getShootable
+    {
+        get { return shootable; }
     }
 }

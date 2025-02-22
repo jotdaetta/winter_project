@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] PlayerAnimationController aniController;
     [SerializeField] PlayerMovement movement;
     [SerializeField] PlayerFight fighting;
     [SerializeField] PlayerUI ui;
@@ -12,7 +13,7 @@ public class PlayerController : MonoBehaviour
     }
     private void Update()
     {
-        SetUI();
+        Setting();
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             fighting.LockOn();
@@ -29,9 +30,17 @@ public class PlayerController : MonoBehaviour
         {
             fighting.ExecutionGaugeFill();
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKey(KeyCode.J))
         {
+            if (!fighting.getShootable) return;
+            movement.moveSpeedMul = movement.moveSlow;
+            if (fighting.getCurAmmo > 0)
+                aniController.Fire();
             fighting.Shoot();
+        }
+        if (Input.GetKeyUp(KeyCode.J))
+        {
+            movement.moveSpeedMul = 1;
         }
         if (Input.GetKeyDown(KeyCode.R))
         {
@@ -44,9 +53,11 @@ public class PlayerController : MonoBehaviour
             movement.Dash();
         }
     }
-    void SetUI()
+    void Setting()
     {
         ui.SetAmmoText(fighting.getCurAmmo, fighting.getTotalAmmo);
         ui.SetHp(fighting.hp);
+
+        aniController.MoveAni(movement.isMoving);
     }
 }
