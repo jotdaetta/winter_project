@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeedMul = 1;
-    public float moveSlow = 0.5f;
+    [SerializeField] float moveSpeedRecoverSpeed = 0.5f;
+    [SerializeField] float moveSlow = 0.5f;
     [SerializeField] float moveSpeed = 7f;
     [SerializeField] float dashSpeed = 25f;
     [SerializeField] float dashTime = 0.3f;
@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] SpriteRenderer spriteRenderer;
     delegate void MyFunc();
+    float moveSpeedMul = 1;
     bool onDash;
     Vector2 moveVector = new();
 
@@ -33,6 +34,33 @@ public class PlayerMovement : MonoBehaviour
         {
             if (!locked && lastLocked) lastLocked = false;
             dirVector = new Vector2(x, y);
+        }
+    }
+
+    bool onFighting;
+    float exitFightTime;
+
+    public void Slow(bool on = true)
+    {
+        if (on)
+        {
+            exitFightTime = moveSpeedRecoverSpeed;
+            onFighting = true;
+            moveSpeedMul = moveSlow;
+            return;
+        }
+    }
+
+    void Update()
+    {
+        if (onFighting)
+        {
+            exitFightTime -= Time.deltaTime;
+            if (exitFightTime <= 0)
+            {
+                onFighting = false;
+                moveSpeedMul = 1;
+            }
         }
     }
 
@@ -71,12 +99,14 @@ public class PlayerMovement : MonoBehaviour
             Mujuk(true);
         }, () => dashable = true));
     }
+
     void Mujuk(bool off = false)
     {
         gameObject.layer = off ? 3 : 8;
         spriteRenderer.color = new Color(1, 1, 1, off ? 1 : 0.4f);
     }
-    IEnumerator Cooltime(float duration, float cool, MyFunc func0, MyFunc func1)
+
+    IEnumerator Cooltime(float duration, float cool, MyFunc func0, MyFunc func1 = null)
     {
         yield return new WaitForSeconds(duration);
         func0();

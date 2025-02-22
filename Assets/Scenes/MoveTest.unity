@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19ae28b60429fed4685192a53557afeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeedMul: 1
+  moveSpeedRecoverSpeed: 0.5
   moveSlow: 0.5
   moveSpeed: 10
   dashSpeed: 25
@@ -28215,8 +28215,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NoiseProfile: {fileID: 11400000, guid: e9ce97b7a206dc64d90931ea044e0c72, type: 2}
   PivotOffset: {x: 0, y: 0, z: 0}
-  AmplitudeGain: 0
-  FrequencyGain: 0
+  AmplitudeGain: 0.5
+  FrequencyGain: 0.1
   m_NoiseOffsets: {x: 162.38293, y: -842.6051, z: 838.89624}
 --- !u!114 &1655828075
 MonoBehaviour:

@@ -33,14 +33,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.J))
         {
             if (!fighting.getShootable) return;
-            movement.moveSpeedMul = movement.moveSlow;
+            movement.Slow();
             if (fighting.getCurAmmo > 0)
                 aniController.Fire();
             fighting.Shoot();
         }
         if (Input.GetKeyUp(KeyCode.J))
         {
-            movement.moveSpeedMul = 1;
+            movement.Slow(false);
         }
         if (Input.GetKeyDown(KeyCode.R))
         {

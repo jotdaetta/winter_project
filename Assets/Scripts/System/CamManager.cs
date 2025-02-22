@@ -82,8 +82,8 @@ public class CamManager : MonoBehaviour
 
         StopCoroutine(shaking);
 
-        noise.AmplitudeGain = 0;
-        noise.FrequencyGain = 0;
+        noise.AmplitudeGain = 0.5f;
+        noise.FrequencyGain = 0.1f;
     }
 
     IEnumerator _closeUp(float orSize, float dutch, float dur)
