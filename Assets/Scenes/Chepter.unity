@@ -131,7 +131,7 @@ GameObject:
   - component: {fileID: 211531952}
   - component: {fileID: 211531951}
   m_Layer: 0
-  m_Name: Tilemap (1)
+  m_Name: Floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25097,7 +25097,7 @@ GameObject:
   - component: {fileID: 316284293}
   - component: {fileID: 316284292}
   m_Layer: 0
-  m_Name: Tilemap
+  m_Name: Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26972,7 +26972,7 @@ GameObject:
   - component: {fileID: 938176729}
   - component: {fileID: 938176728}
   m_Layer: 0
-  m_Name: Tilemap (4)
+  m_Name: Container wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27449,7 +27449,7 @@ GameObject:
   - component: {fileID: 1124702525}
   - component: {fileID: 1124702524}
   m_Layer: 0
-  m_Name: Tilemap (2)
+  m_Name: Container floor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27687,7 +27687,7 @@ GameObject:
   - component: {fileID: 1637585116}
   - component: {fileID: 1637585115}
   m_Layer: 0
-  m_Name: Tilemap (3)
+  m_Name: Scepter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
