@@ -659,7 +659,7 @@ MonoBehaviour:
   maxDistance: 20
   detectLayer:
     serializedVersion: 2
-    m_Bits: 512
+    m_Bits: 576
   maxAmmoCount: 8
   curAmmoCount: 8
   totalAmmoCount: 32
@@ -2265,6 +2265,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2b265330d6304d70b4f0727fe20fb76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponDamage: 0
+  maxDistance: 0
+  detectLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  maxAmmoCount: 8
+  curAmmoCount: 0
+  totalAmmoCount: 0
+  ammoPerShot: 1
+  reloadingTime: 0.1
+  bulletTrailPrefab: {fileID: 0}
+  trailDuration: 0.05
   hp: 10
 --- !u!114 &1978215476
 MonoBehaviour:
