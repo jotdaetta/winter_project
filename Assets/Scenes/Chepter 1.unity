@@ -27692,7 +27692,7 @@ GameObject:
   - component: {fileID: 1637585117}
   - component: {fileID: 1637585116}
   - component: {fileID: 1637585115}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Scepter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
