@@ -79,7 +79,7 @@ public class EnemyMovement : MonoBehaviour
             rb.linearVelocity = Vector2.zero;
             return;
         }
-        if (CheckWall() && path != null && path.Count > currentPathIndex)
+        if (CheckWall(true) && path != null && path.Count > currentPathIndex)
         {
             // 현재 목표 노드의 월드 위치 (2D 환경이므로 z는 0)
             Vector2 targetPos = path[currentPathIndex].worldPosition;
@@ -164,7 +164,7 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    void OnTriggerStay2D(Collider2D other)
+    public void ColliderStay(Collider2D other)
     {
         if (other.CompareTag("Player"))
         {
@@ -180,11 +180,34 @@ public class EnemyMovement : MonoBehaviour
             }
         }
     }
-    bool CheckWall()
+    bool CheckWall(bool wallchasing = false)
     {
         if (playerTransform == null) return false;
-        return Physics2D.Linecast(rb.position, playerTransform.position, wallLayer).collider != null;
+
+        Vector2 myPos = rb.position;
+
+        if (wallchasing)
+        {
+            Collider2D playerCollider = playerTransform.GetComponent<Collider2D>();
+            float offsetDistance = playerCollider ? playerCollider.bounds.extents.x : 0.5f;
+            Vector2 toPlayer = ((Vector2)playerTransform.position - myPos).normalized;
+            Vector2 perpendicular = new Vector2(-toPlayer.y, toPlayer.x);
+            Vector2 leftPoint = (Vector2)playerTransform.position + perpendicular * offsetDistance;
+            Vector2 rightPoint = (Vector2)playerTransform.position - perpendicular * offsetDistance;
+            Debug.DrawLine(myPos, leftPoint, Color.red, 0.1f);
+            Debug.DrawLine(myPos, rightPoint, Color.red, 0.1f);
+            bool hitLeft = Physics2D.Linecast(myPos, leftPoint, wallLayer).collider != null;
+            bool hitRight = Physics2D.Linecast(myPos, rightPoint, wallLayer).collider != null;
+            return hitLeft || hitRight;
+        }
+        else
+        {
+            Debug.DrawLine(myPos, playerTransform.position, Color.green, 0.1f);
+            return Physics2D.Linecast(myPos, playerTransform.position, wallLayer).collider != null;
+        }
     }
+
+
 
     void OnDrawGizmosSelected()
     {

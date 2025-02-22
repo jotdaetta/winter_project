@@ -4,11 +4,9 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] PlayerMovement movement;
     [SerializeField] PlayerFight fighting;
-    [SerializeField] PlayerGun gun;
     [SerializeField] PlayerUI ui;
     private void FixedUpdate()
     {
-        SetAim();
         movement.Move();
         movement.Turn(fighting.lockedOn, fighting.aimDir);
     }
@@ -27,22 +25,28 @@ public class PlayerController : MonoBehaviour
         {
             fighting.Execute();
         }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            movement.Dash();
-        }
         if (Input.GetKeyDown(KeyCode.X))
         {
             fighting.ExecutionGaugeFill();
         }
+        if (Input.GetKeyDown(KeyCode.J))
+        {
+            fighting.Shoot();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            if (fighting.onReloading || !fighting.CheckReloadable()) return;
+            fighting.Reloading(fighting.getReloadTime);
+            ui.ReloadSlider(fighting.getReloadTime);
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            movement.Dash();
+        }
     }
     void SetUI()
     {
-        int[] gunInfo = gun.GetGunInfo();
-        ui.SetAmmoText(gunInfo[1], gunInfo[2]);
-    }
-    void SetAim()
-    {
-        gun.shootDir = fighting.aimDir;
+        ui.SetAmmoText(fighting.getCurAmmo, fighting.getTotalAmmo);
+        ui.SetHp(fighting.hp);
     }
 }

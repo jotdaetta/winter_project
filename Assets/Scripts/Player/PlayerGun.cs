@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class PlayerGun : Gun
 {
-    public Vector2 shootDir = new();
-    private void Update()
+    public void Shoot()
     {
-        if (Input.GetKeyDown(KeyCode.J))
-        {
-            Attack(shootDir);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            Reload();
-        }
+        if (getCurAmmo < 1) return;
+        Attack(transform.right);
+    }
+
+    public void Reloading(float reloading_time)
+    {
+
     }
 }

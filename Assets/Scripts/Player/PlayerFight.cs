@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerFight : MonoBehaviour, IDamageable
+public class PlayerFight : Gun, IDamageable
 {
     public int hp = 10;
     public Vector2 aimDir = new();
@@ -22,6 +22,26 @@ public class PlayerFight : MonoBehaviour, IDamageable
         CheckTargetChangeCondition();
         SetAim();
     }
+    #region Gun
+    bool onReload;
+    public void Shoot()
+    {
+        if (onReload) return;
+        Attack(transform.right);
+    }
+    public bool onReloading { get { return onReload; } }
+    public void Reloading(float reloading_time)
+    {
+        onReload = true;
+        StartCoroutine(Reloading_(reloading_time));
+    }
+    IEnumerator Reloading_(float reloading_time)
+    {
+        yield return new WaitForSeconds(reloading_time);
+        onReload = false;
+        Reload();
+    }
+    #endregion
     #region Damage
     public void TakeDamage(int damage)
     {
@@ -79,7 +99,6 @@ public class PlayerFight : MonoBehaviour, IDamageable
         if (index >= 0 && index < enemies.Count)
         {
             SpriteRenderer renderer = enemies[index].transform.GetChild(0).GetComponent<SpriteRenderer>();
-            print(renderStack);
             if (targetRenderer != null && renderer == targetRenderer && renderStack < 3)
             {
                 renderStack++;
