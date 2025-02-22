@@ -7,7 +7,8 @@ public class Gun : Weapon
     [SerializeField] private int curAmmoCount;
     [SerializeField] private int totalAmmoCount;
     [SerializeField] private int ammoPerShot = 1;
-    [SerializeField] private float reloadingTime = 1;
+    [SerializeField] private float fireSpeed = 1;
+    [SerializeField] private float reloadingTime = 0.1f;
 
     // 총알 이펙트 프리팹 (LineRenderer가 포함된 프리팹)
     [SerializeField] private GameObject bulletTrailPrefab;
@@ -16,6 +17,7 @@ public class Gun : Weapon
 
     public virtual bool Attack(Vector2 direction)
     {
+
         if (curAmmoCount <= 0)
         {
             return false; // 총알이 없으면 공격 실패
