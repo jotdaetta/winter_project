@@ -19,6 +19,7 @@ public class PlayerFight : Gun, IDamageable
     }
     private void Update()
     {
+        AimableToLockedEnemy();
         CheckTargetChangeCondition();
         SetAim();
     }
@@ -53,7 +54,12 @@ public class PlayerFight : Gun, IDamageable
     [SerializeField] LayerMask WallLayer;
     List<GameObject> enemies = new();
     SpriteRenderer targetRenderer = null;
-    public bool lockedOn;
+    public bool canAimToLockedEnemy;
+    void AimableToLockedEnemy()
+    {
+        canAimToLockedEnemy = lockedOn && enemies.Count > 0;
+    }
+    bool lockedOn;
     float findingInterval;
     int index, renderStack = 0;
     public void LockOn()

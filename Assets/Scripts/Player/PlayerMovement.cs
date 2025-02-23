@@ -65,12 +65,25 @@ public class PlayerMovement : MonoBehaviour
     }
 
     public bool isMoving { get { return new Vector2(x, y) != Vector2.zero; } }
-
+    bool StayLastLockedAngle;
+    float StayRotateAngle;
+    public void StayLocked()
+    {
+        StayLastLockedAngle = !StayLastLockedAngle;
+        if (StayLastLockedAngle)
+            StayRotateAngle = transform.eulerAngles.z;
+        return;
+    }
     bool lastLocked;
     public void Turn(bool locked, Vector2 targetpos)
     {
         this.locked = locked;
         Vector2 direction;
+        if (StayLastLockedAngle)
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, StayRotateAngle), Time.deltaTime * 7);
+            return;
+        }
         if (locked)
         {
             lastLocked = true;

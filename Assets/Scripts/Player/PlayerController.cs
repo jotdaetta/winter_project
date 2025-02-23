@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         movement.Move();
-        movement.Turn(fighting.lockedOn, fighting.aimDir);
+        movement.Turn(fighting.canAimToLockedEnemy, fighting.aimDir);
     }
     private void Update()
     {
@@ -33,9 +33,11 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.J))
         {
             if (!fighting.getShootable) return;
-            movement.Slow();
             if (fighting.getCurAmmo > 0)
+            {
+                movement.Slow();
                 aniController.Fire();
+            }
             fighting.Shoot();
         }
         if (Input.GetKeyUp(KeyCode.J))
@@ -51,6 +53,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.L))
         {
             movement.Dash();
+        }
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            movement.StayLocked();
         }
     }
     void Setting()

@@ -11,12 +11,15 @@ public class EnemyMovement : MonoBehaviour
     public class PatrolPoint
     {
         public Vector2 position;
+        public float onGoingShowAngle;
+        public float onStopShowAngle;
         public float moveTime = 1f;
         public float waitTime = 1f;
     }
 
     [Header("Patrol Settings")]
     public List<PatrolPoint> patrolPath = new List<PatrolPoint>();
+    float toShowAngle;
 
     [Header("Combat Settings")]
     public float combatSpeed = 5f;         // 전투 시 이동 속도
@@ -42,6 +45,7 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        toShowAngle = transform.eulerAngles.z;
         SetCollider();
         StartCoroutine(UpdatePath());
         StartPatrol();
@@ -55,6 +59,21 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    public void TurnToPlayer()
+    {
+        if (playerTransform == null) return;
+        if (inCombat)
+        {
+            Vector2 direction = playerTransform.position - transform.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 7);
+            toShowAngle = transform.eulerAngles.z;
+        }
+        else
+        {
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, toShowAngle), Time.deltaTime * 7);
+        }
+    }
     void StartPatrol()
     {
         if (patrolPath.Count > 0)
@@ -121,6 +140,8 @@ public class EnemyMovement : MonoBehaviour
             PatrolPoint target = patrolPath[currentIndex];
             float elapsed = 0f;
 
+            toShowAngle = target.onGoingShowAngle;
+
             // 부드러운 이동
             while (elapsed < target.moveTime)
             {
@@ -136,6 +157,8 @@ public class EnemyMovement : MonoBehaviour
             }
 
             rb.MovePosition(target.position);
+
+            toShowAngle = target.onStopShowAngle;
 
             // 대기 시간
             yield return new WaitForSeconds(target.waitTime);
@@ -172,13 +195,24 @@ public class EnemyMovement : MonoBehaviour
             {
                 playerTransform = other.transform;
             }
-            if (CheckWall()) return;
+            if (CheckWall() || !IsTargetInFan(playerTransform)) return;
             inCombat = true;
             if (patrolCoroutine != null)
             {
                 StopCoroutine(patrolCoroutine);
             }
         }
+    }
+    bool IsTargetInFan(Transform target)
+    {
+        // B의 위치에서 타겟 A까지의 벡터 계산
+        Vector2 toTarget = target.position - transform.position;
+        // transform.right를 기준으로 두 벡터 사이의 각도를 구함 (0~180도 반환)
+        float angle = Vector2.Angle(transform.right, toTarget);
+
+        // 여기서는 ±120도, 즉 240도 범위를 허용 (뒷쪽 120도까지 포함)
+        // 만약 총 120도 범위를 원한다면 angle <= 60f 로 변경
+        return angle <= 120f;
     }
     bool CheckWall(bool wallchasing = false)
     {
@@ -202,12 +236,9 @@ public class EnemyMovement : MonoBehaviour
         }
         else
         {
-            Debug.DrawLine(myPos, playerTransform.position, Color.green, 0.1f);
             return Physics2D.Linecast(myPos, playerTransform.position, wallLayer).collider != null;
         }
     }
-
-
 
     void OnDrawGizmosSelected()
     {
@@ -220,6 +251,8 @@ public class EnemyMovement : MonoBehaviour
 #endif
         }
     }
+
+    public bool getCombat { get { return inCombat; } }
 }
 
 public class Node
