@@ -8,6 +8,9 @@ using UnityEngine.UI;
 public class PlayerFight : Gun, IDamageable
 {
     public int hp = 10;
+    [SerializeField] float mujukTime;
+    [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] PlayerController controller;
     public Vector2 aimDir = new();
 
     delegate void MyFunc();
@@ -44,9 +47,19 @@ public class PlayerFight : Gun, IDamageable
     }
     #endregion
     #region Damage
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isknife = false)
     {
         hp -= damage;
+        StartCoroutine(Mujuk());
+    }
+
+    IEnumerator Mujuk()
+    {
+        gameObject.layer = 8;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        yield return new WaitForSeconds(mujukTime);
+        gameObject.layer = 3;
+        spriteRenderer.color = new Color(1, 1, 1, 1);
     }
     #endregion
     #region Lock On

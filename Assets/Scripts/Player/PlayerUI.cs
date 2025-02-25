@@ -4,18 +4,12 @@ using UnityEngine.UI;
 
 public class PlayerUI : MonoBehaviour
 {
-    [SerializeField] Text text_hp;
     [SerializeField] Text text_ammo;
     [SerializeField] Slider slider_reload;
 
     public void SetAmmoText(int curammo, int totalammo)
     {
-        text_ammo.text = $"{curammo} / {totalammo}";
-    }
-
-    public void SetHp(int hp)
-    {
-        text_hp.text = $"hp : {hp}";
+        text_ammo.text = $"{curammo} | {totalammo}";
     }
 
     // duration 초 동안 슬라이더를 0에서 1로 채움

@@ -62,8 +62,6 @@ public class PlayerController : MonoBehaviour
     void Setting()
     {
         ui.SetAmmoText(fighting.getCurAmmo, fighting.getTotalAmmo);
-        ui.SetHp(fighting.hp);
-
         aniController.MoveAni(movement.isMoving);
     }
 }

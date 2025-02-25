@@ -3,8 +3,10 @@ using UnityEngine;
 
 public class EnemyFight : Gun, IDamageable
 {
-    public int hp = 10;
+    public int hp = 2;
+    public int failedExecuteHp = 1;
     [SerializeField] LayerMask wallLayer;
+    [SerializeField] EnemyContoller contoller;
     public Transform playerTransform;
 
     #region InCombat
@@ -44,7 +46,7 @@ public class EnemyFight : Gun, IDamageable
     }
     #endregion
     #region Damage
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, bool isknife = false)
     {
         hp -= damage;
         print("hp: " + hp);
