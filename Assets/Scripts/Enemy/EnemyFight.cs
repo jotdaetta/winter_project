@@ -5,6 +5,7 @@ public class EnemyFight : Gun, IDamageable
 {
     public int hp = 2;
     public int failedExecuteHp = 1;
+    public bool IsStunned;
     [SerializeField] LayerMask wallLayer;
     [SerializeField] EnemyContoller contoller;
     public Transform playerTransform;

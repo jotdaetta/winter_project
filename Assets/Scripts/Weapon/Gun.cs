@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Gun : Weapon
 {
+    #region Gun
+    [Header("Gun")]
     [SerializeField] private int maxAmmoCount = 8;
     [SerializeField] private int curAmmoCount;
     [SerializeField] private int totalAmmoCount;
@@ -32,7 +34,6 @@ public class Gun : Weapon
 
         Vector2 startPoint = (Vector2)transform.position + (Vector2)transform.right * shootOffset.y + (Vector2)transform.up * shootOffset.x;
         RaycastHit2D hit = Physics2D.Raycast(startPoint, direction.normalized, maxDistance, detectLayer);
-
         Vector2 endPoint = hit ? hit.point : startPoint + direction.normalized * maxDistance;
 
         CreateBulletTrail(startPoint, endPoint);
@@ -112,4 +113,30 @@ public class Gun : Weapon
     {
         get { return shootable; }
     }
+    #endregion
+    #region Knife
+    [Header("Knife")]
+    [SerializeField] private Vector2 boxSize = new Vector2(1f, 0.5f); // 사각형 크기 조절 가능
+    [SerializeField] private float attackDistance = 1f; // 공격 거리
+    [SerializeField] private float attackDelay = 0.2f;
+
+    public void KnifeAttack()
+    {
+        StartCoroutine(KnifeAttack_());
+    }
+    IEnumerator KnifeAttack_()
+    {
+        yield return new WaitForSeconds(attackDelay);
+        Vector2 origin = (Vector2)transform.position + (Vector2)transform.right * attackDistance * 0.5f;
+        RaycastHit2D hit = Physics2D.BoxCast(origin, boxSize, 0f, transform.right, attackDistance, detectLayer);
+
+        if (hit.collider != null)
+        {
+            if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+            {
+                damageable.TakeDamage(weaponDamage, true);
+            }
+        }
+    }
+    #endregion
 }

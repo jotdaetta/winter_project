@@ -22,9 +22,13 @@ public class PlayerController : MonoBehaviour
         {
             fighting.ChangeLockOn();
         }
-        if (Input.GetKeyDown(KeyCode.T))
+        // if (Input.GetKeyDown(KeyCode.T))
+        // {
+        //      fighting.Execute();
+        // }
+        if (Input.GetKeyDown(KeyCode.I))
         {
-            fighting.Execute();
+            fighting.KnifeAttack();
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
