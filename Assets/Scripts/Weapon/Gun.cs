@@ -21,6 +21,7 @@ public class Gun : Weapon
 
     public virtual bool Attack(Vector2 direction)
     {
+        knifeAble = false;
         shootable = false;
         StartCoroutine(ShootingCool());
 
@@ -89,6 +90,7 @@ public class Gun : Weapon
     IEnumerator ShootingCool()
     {
         yield return new WaitForSeconds(shootingSpeed);
+        knifeAble = true;
         shootable = true;
     }
 
@@ -118,10 +120,14 @@ public class Gun : Weapon
     [Header("Knife")]
     [SerializeField] private Vector2 boxSize = new Vector2(1f, 0.5f); // 사각형 크기 조절 가능
     [SerializeField] private float attackDistance = 1f; // 공격 거리
-    [SerializeField] private float attackDelay = 0.2f;
+    [SerializeField] private float attackDelay = 0.5f;
+    [SerializeField] private float attackAfterDelay = 1f;
+    public bool knifeAble = true;
 
     public void KnifeAttack()
     {
+        knifeAble = false;
+        shootable = false;
         StartCoroutine(KnifeAttack_());
     }
     IEnumerator KnifeAttack_()
@@ -134,9 +140,17 @@ public class Gun : Weapon
         {
             if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
-                damageable.TakeDamage(weaponDamage, true);
+                if (damageable.TakeDamage(weaponDamage, true))
+                {
+                    transform.TryGetComponent<PlayerFight>(out PlayerFight fight);
+                    hit.transform.TryGetComponent<EnemyFight>(out EnemyFight enfight);
+                    fight.Execute(enfight);
+                }
             }
         }
+        yield return new WaitForSeconds(attackAfterDelay);
+        shootable = true;
+        knifeAble = true;
     }
     #endregion
 }

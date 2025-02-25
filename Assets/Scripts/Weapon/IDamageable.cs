@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public void TakeDamage(int damage, bool isknife = false);
+    public bool TakeDamage(int damage, bool isknife = false);
 }

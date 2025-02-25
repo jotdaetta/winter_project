@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainUIController : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class MainUIController : MonoBehaviour
     [SerializeField] RectTransform mapRect;
     [SerializeField] RectTransform arrowRect;
     [SerializeField] GameObject settingsPannel;
+    [SerializeField] GameObject howtoPannel;
     [SerializeField] Animator arrowAnimator;
     [SerializeField] Transform mapSceneTransform;
     [SerializeField] Image transitionImg;
+    [SerializeField] Image AttackStartFrame;
     [SerializeField] Text pointName;
     [SerializeField] float transitionTime;
     [SerializeField] float transitionDelay;
@@ -20,7 +23,7 @@ public class MainUIController : MonoBehaviour
     delegate void myFunc();
     bool onTransitionAction = false;
     bool onLevelChoiceAction = false;
-    int lastClickedLevel = -1;
+    [SerializeField] int lastClickedLevel = -1;
     Vector2 LastPos = Vector2.zero;
     Image lastEnterImage;
 
@@ -31,9 +34,17 @@ public class MainUIController : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Escape))
+        // if (Input.GetKeyUp(KeyCode.Escape))
+        // {
+        //     Settings();
+        // }
+        if (lastClickedLevel == -1)
         {
-            Settings();
+            AttackStartFrame.color = Color.black;
+        }
+        else
+        {
+            AttackStartFrame.color = new Color(255, 229, 0);
         }
     }
 
@@ -46,7 +57,7 @@ public class MainUIController : MonoBehaviour
         scrollViewContents.sizeDelta = sizeDelta;
     }
 
-    IEnumerator FadeIO(bool isIn, myFunc func = null)
+    IEnumerator FadeIO(bool isIn, myFunc func = null, float funcBeforeDelay = 0, float funcAfterDelay = 0, bool noFadeOut = false)
     {
         float elapsedTime = 0f;
         Color color = transitionImg.color;
@@ -63,8 +74,11 @@ public class MainUIController : MonoBehaviour
         yield return new WaitForSeconds(transitionDelay);
         if (isIn)
         {
+            yield return new WaitForSeconds(funcBeforeDelay);
             func();
-            StartCoroutine(FadeIO(false));
+            yield return new WaitForSeconds(funcAfterDelay);
+            if (!noFadeOut)
+                StartCoroutine(FadeIO(false));
         }
         else onTransitionAction = false;
     }
@@ -123,7 +137,16 @@ public class MainUIController : MonoBehaviour
         "KR_GoyangCity",
         "Unknown",
     };
-
+    public string levelName = "Level";
+    public void AttackStart()
+    {
+        if (lastClickedLevel == -1) return;
+        StartCoroutine(FadeIO(true, () =>
+        {
+            PlayerPrefs.SetInt(Levels.CurrentLevel, lastClickedLevel);
+            SceneManager.LoadScene($"{levelName}{lastClickedLevel}");
+        }, 0.4f, 0, true));
+    }
     public void LevelClicked(int level)
     {
         if (onLevelChoiceAction) return;
@@ -169,6 +192,11 @@ public class MainUIController : MonoBehaviour
     public void Settings()
     {
         settingsPannel.SetActive(!settingsPannel.activeSelf);
+        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+    }
+    public void HowTo()
+    {
+        howtoPannel.SetActive(!howtoPannel.activeSelf);
         lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
 

@@ -82,6 +82,11 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    public void Stunned()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
     public void FollowPlayer()
     {
         if (!inCombat || playerTransform == null) return;

@@ -11,4 +11,12 @@ public class PlayerAnimationController : MonoBehaviour
     {
         animator.SetTrigger("fire");
     }
+    public void KnifeHit()
+    {
+        animator.SetTrigger("knife");
+    }
+    public void IsExecution(bool parm)
+    {
+        animator.SetBool("execution", parm);
+    }
 }

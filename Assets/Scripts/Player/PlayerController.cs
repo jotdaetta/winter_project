@@ -8,8 +8,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerUI ui;
     private void FixedUpdate()
     {
-        movement.Move();
-        movement.Turn(fighting.canAimToLockedEnemy, fighting.aimDir);
+        if (!fighting.isStunned)
+        {
+            movement.Move();
+            movement.Turn(fighting.canAimToLockedEnemy, fighting.aimDir);
+        }
     }
     private void Update()
     {
@@ -24,11 +27,15 @@ public class PlayerController : MonoBehaviour
         }
         // if (Input.GetKeyDown(KeyCode.T))
         // {
-        //      fighting.Execute();
+        //     fighting.Execute();
         // }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            fighting.KnifeAttack();
+            if (fighting.knifeAble)
+            {
+                aniController.KnifeHit();
+                fighting.KnifeAttack();
+            }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -54,7 +61,7 @@ public class PlayerController : MonoBehaviour
             fighting.Reloading(fighting.getReloadTime);
             ui.ReloadSlider(fighting.getReloadTime);
         }
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) && !fighting.isStunned)
         {
             movement.Dash();
         }
@@ -66,6 +73,7 @@ public class PlayerController : MonoBehaviour
     void Setting()
     {
         ui.SetAmmoText(fighting.getCurAmmo, fighting.getTotalAmmo);
+        aniController.IsExecution(fighting.executing);
         aniController.MoveAni(movement.isMoving);
     }
 }

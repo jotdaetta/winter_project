@@ -3,12 +3,24 @@ using UnityEngine;
 
 public class EnemyFight : Gun, IDamageable
 {
-    public int hp = 2;
-    public int failedExecuteHp = 1;
-    public bool IsStunned;
+    public int hp = 20;
+    public bool isStunned;
+    public bool onExecution;
     [SerializeField] LayerMask wallLayer;
-    [SerializeField] EnemyContoller contoller;
+    [SerializeField] GameObject stunText;
+    [SerializeField] Transform canvas;
     public Transform playerTransform;
+
+    void FixedUpdate()
+    {
+        if (stunObj != null) stunObj.transform.position = transform.position;
+        if (onExecution)
+        {
+            isStunned = true;
+            if (stunObj != null)
+                Destroy(stunObj);
+        }
+    }
 
     #region InCombat
     public void OnCombat()
@@ -37,7 +49,8 @@ public class EnemyFight : Gun, IDamageable
     bool onReload;
     public void Shoot()
     {
-        Attack(transform.right);
+        if (!onExecution)
+            Attack(transform.right);
     }
     IEnumerator Reloading(float reloading_time)
     {
@@ -47,10 +60,32 @@ public class EnemyFight : Gun, IDamageable
     }
     #endregion
     #region Damage
-    public void TakeDamage(int damage, bool isknife = false)
+    int stunCount;
+    [SerializeField] float stunTime;
+    GameObject stunObj;
+    public bool TakeDamage(int damage, bool isknife = false)
     {
+        if (isknife && isStunned)
+        {
+            onExecution = true;
+            return true;
+        }
         hp -= damage;
-        print("hp: " + hp);
+        if (!isStunned && ++stunCount == 2)
+        {
+            stunCount = 0;
+            isStunned = true;
+            StartCoroutine(Stun());
+            stunObj = Instantiate(stunText, canvas);
+        }
+        return false;
+    }
+    IEnumerator Stun()
+    {
+        yield return new WaitForSeconds(stunTime);
+        if (stunObj != null)
+            Destroy(stunObj);
+        isStunned = false;
     }
     #endregion
     #region  Extra
@@ -75,6 +110,12 @@ public class EnemyFight : Gun, IDamageable
 
         // 차이가 +-15도 이내면 true 반환
         return Mathf.Abs(angleDifference) <= 15f;
+    }
+    public void StunRecover()
+    {
+        onExecution = false;
+        isStunned = false;
+        if (stunObj != null) Destroy(stunObj);
     }
     #endregion
 }

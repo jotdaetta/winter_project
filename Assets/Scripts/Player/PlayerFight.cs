@@ -8,9 +8,10 @@ using UnityEngine.UI;
 public class PlayerFight : Gun, IDamageable
 {
     public int hp = 10;
+    public bool isStunned;
     [SerializeField] float mujukTime;
+    [SerializeField] float stunTime = 0.5f;
     [SerializeField] SpriteRenderer spriteRenderer;
-    [SerializeField] PlayerController controller;
     public Vector2 aimDir = new();
 
     delegate void MyFunc();
@@ -19,6 +20,7 @@ public class PlayerFight : Gun, IDamageable
     private void FixedUpdate()
     {
         ExecutionGaugeSet();
+        if (stunObj != null) stunObj.transform.position = transform.position;
     }
     private void Update()
     {
@@ -47,19 +49,11 @@ public class PlayerFight : Gun, IDamageable
     }
     #endregion
     #region Damage
-    public void TakeDamage(int damage, bool isknife = false)
+    public bool TakeDamage(int damage, bool isknife = false)
     {
         hp -= damage;
         StartCoroutine(Mujuk());
-    }
-
-    IEnumerator Mujuk()
-    {
-        gameObject.layer = 8;
-        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
-        yield return new WaitForSeconds(mujukTime);
-        gameObject.layer = 3;
-        spriteRenderer.color = new Color(1, 1, 1, 1);
+        return false;
     }
     #endregion
     #region Lock On
@@ -191,16 +185,24 @@ public class PlayerFight : Gun, IDamageable
     #region Execution
     [Header("처형")]
     [SerializeField] GameObject ex_UI;
+    [SerializeField] GameObject stunText;
+    [SerializeField] float ex_enemyStunRecoverTime = 1f;
     [SerializeField] Image ex_processImage;
     [SerializeField] float ex_time = 3;
     [SerializeField] float ex_processSub = 0.7f;
     [SerializeField] float ex_processAdd = 0.15f;
     [SerializeField] float ex_shakeStrength = 1;
+    [SerializeField] Transform canvas;
+    GameObject stunObj;
+    EnemyFight ex_target;
     float ex_process;
-    bool executing;
+    public bool executing;
     float ex_eclipsed;
-    public void Execute()
+    public void Execute(EnemyFight enemy)
     {
+        isStunned = true;
+        ex_target = enemy;
+        gameObject.layer = 8;
         executing = true;
         ex_eclipsed = 0;
         ex_process = 0;
@@ -226,12 +228,23 @@ public class PlayerFight : Gun, IDamageable
         ex_processImage.color = color;
         if (ex_process == 1 || ex_eclipsed >= ex_time)
         {
+            gameObject.layer = 3;
             executing = false;
             camManager.StopShake();
             camManager.CloseOut(0.3f);
             StartCoroutine(GiveDelay(() => ex_UI.SetActive(false), 0.5f));
             if (ex_process != 1)
+            {
                 ex_processImage.color = Color.gray;
+                stunObj = Instantiate(stunText, canvas);
+                StartCoroutine(GiveDelay(() => { isStunned = false; if (stunObj != null) Destroy(stunObj); }, stunTime));
+                StartCoroutine(GiveDelay(() => ex_target.StunRecover(), ex_enemyStunRecoverTime));
+            }
+            else
+            {
+                isStunned = false;
+                Destroy(ex_target.gameObject);
+            }
         }
     }
     #endregion
@@ -240,6 +253,14 @@ public class PlayerFight : Gun, IDamageable
     {
         yield return new WaitForSeconds(delay);
         func();
+    }
+    IEnumerator Mujuk()
+    {
+        gameObject.layer = 8;
+        spriteRenderer.color = new Color(1, 1, 1, 0.4f);
+        yield return new WaitForSeconds(mujukTime);
+        gameObject.layer = 3;
+        spriteRenderer.color = new Color(1, 1, 1, 1);
     }
     void SetAim()
     {

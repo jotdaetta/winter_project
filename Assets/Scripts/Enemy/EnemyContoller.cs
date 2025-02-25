@@ -14,12 +14,19 @@ public class EnemyContoller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        movement.FollowPlayer();
-        movement.TurnToPlayer();
+        if (!fight.isStunned)
+        {
+            movement.FollowPlayer();
+            movement.TurnToPlayer();
+        }
+        else
+        {
+            movement.Stunned();
+        }
     }
     void Update()
     {
-        if (movement.getCombat)
+        if (movement.getCombat && !fight.isStunned)
         {
             fight.OnCombat();
         }

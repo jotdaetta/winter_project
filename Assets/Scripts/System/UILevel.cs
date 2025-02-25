@@ -30,7 +30,7 @@ public class UILevel : MonoBehaviour, IPointerClickHandler
         if (isClicked) return;
         isClicked = true;
 
-        StartCoroutine(nameof(LoadLevel));
+        // StartCoroutine(nameof(LoadLevel));
     }
 
     private IEnumerator LoadLevel()
