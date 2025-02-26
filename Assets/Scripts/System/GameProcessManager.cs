@@ -58,7 +58,7 @@ public class GameProcessManager : MonoBehaviour
         clearUI.SetActive(true);
 
         Time.timeScale = 1f;
-        yield return new WaitForSecondsRealtime(2.4f);
+        yield return new WaitForSecondsRealtime(1.4f);
         inGameFade.Fade();
         yield return new WaitForSecondsRealtime(inGameFade.transitionTime + 0.2f);
         levelController.BackToMenu();

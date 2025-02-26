@@ -80,6 +80,7 @@ public class PlayerMovement : MonoBehaviour
         return;
     }
     bool lastLocked;
+    [SerializeField, Range(7f, 35f)] float PlayerRotateSpeed = 14;
     public void Turn(bool locked, Vector2 targetpos)
     {
         this.locked = locked;
@@ -100,7 +101,7 @@ public class PlayerMovement : MonoBehaviour
             direction = dirVector;
         }
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 14);
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * PlayerRotateSpeed);
     }
 
     public void Dash()
