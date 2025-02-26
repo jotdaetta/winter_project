@@ -51,6 +51,11 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void RbStop()
+    {
+        rb.linearVelocity = Vector2.zero;
+    }
+
     void Update()
     {
         if (onFighting)

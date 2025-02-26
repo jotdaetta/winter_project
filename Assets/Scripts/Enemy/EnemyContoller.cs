@@ -26,9 +26,14 @@ public class EnemyContoller : MonoBehaviour
     }
     void Update()
     {
-        if (movement.getCombat && !fight.isStunned)
+        if (movement.inCombat && !fight.isStunned)
         {
             fight.OnCombat();
         }
+    }
+
+    public void SetCombat(bool parm)
+    {
+        movement.inCombat = parm;
     }
 }

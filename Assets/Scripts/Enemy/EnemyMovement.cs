@@ -31,7 +31,7 @@ public class EnemyMovement : MonoBehaviour
     [Header("References")]
     public Transform playerTransform;      // 플레이어 Transform
 
-    private bool inCombat = false;         // 전투 모드 여부
+    public bool inCombat = false;         // 전투 모드 여부
     private Coroutine patrolCoroutine;
     [SerializeField] Rigidbody2D rb;        // Rigidbody2D 컴포넌트 참조
     [SerializeField] CircleCollider2D circleCollider; // 플레이어 탐지를 위한 콜라이더
@@ -74,6 +74,7 @@ public class EnemyMovement : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, toShowAngle), Time.deltaTime * 7);
         }
     }
+
     void StartPatrol()
     {
         if (patrolPath.Count > 0)
@@ -84,7 +85,8 @@ public class EnemyMovement : MonoBehaviour
 
     public void Stunned()
     {
-        rb.linearVelocity = Vector2.zero;
+        // linearVelocity를 사용하지 않도록 수정
+        // 스턴 상태는 이동하지 않음을 의미 (이미 다음 프레임에서 이동하지 않게 됨)
     }
 
     public void FollowPlayer()
@@ -93,6 +95,8 @@ public class EnemyMovement : MonoBehaviour
         Vector2 toPlayer = (Vector2)playerTransform.position - rb.position;
         Vector2 direction = toPlayer.normalized;
         float distance = toPlayer.magnitude;
+
+        // 플레이어와 거리가 너무 멀면 전투 모드 종료
         if (distance > missPlayerDistance)
         {
             inCombat = false;
@@ -100,16 +104,20 @@ public class EnemyMovement : MonoBehaviour
             // {
             //     patrolCoroutine = StartCoroutine(PatrolRoutine());
             // }
-            rb.linearVelocity = Vector2.zero;
             return;
         }
+
+        Vector2 currentPos = rb.position;
+        Vector2 newPos = currentPos;
+
         if (CheckWall(true) && path != null && path.Count > currentPathIndex)
         {
-            // 현재 목표 노드의 월드 위치 (2D 환경이므로 z는 0)
+            // A* 경로 찾기를 통한 이동
             Vector2 targetPos = path[currentPathIndex].worldPosition;
-            Vector2 currentPos = rb.position;
             Vector2 moveDir = (targetPos - currentPos).normalized;
-            rb.linearVelocity = moveDir * combatSpeed;
+
+            // 이동할 새 위치 계산
+            newPos = currentPos + moveDir * combatSpeed * Time.fixedDeltaTime;
 
             // 목표 노드에 충분히 가까워지면 다음 노드로 진행
             if (Vector2.Distance(currentPos, targetPos) < 0.1f)
@@ -118,19 +126,25 @@ public class EnemyMovement : MonoBehaviour
                 if (currentPathIndex >= path.Count)
                 {
                     // 경로의 끝에 도달하면 이동을 멈춤
-                    rb.linearVelocity = Vector2.zero;
+                    // 다음 프레임에는 새 위치로 이동하지 않음
+                    currentPathIndex = path.Count - 1;
                 }
             }
         }
         else
         {
+            // 직접 플레이어 추적/도망
             if (distance < minCombatDistance)
-                rb.linearVelocity = -direction * combatSpeed;
+                // 플레이어와 너무 가까우면 후퇴
+                newPos = currentPos + (-direction * combatSpeed * Time.fixedDeltaTime);
             else if (distance > maxCombatDistance)
-                rb.linearVelocity = direction * combatSpeed;
-            else
-                rb.linearVelocity = Vector2.zero;
+                // 플레이어와 너무 멀면 접근
+                newPos = currentPos + (direction * combatSpeed * Time.fixedDeltaTime);
+            // 적절한 거리면 움직이지 않음 (newPos는 currentPos와 동일)
         }
+
+        // MovePosition을 사용하여 물리 기반 이동 수행
+        rb.MovePosition(newPos);
     }
 
     IEnumerator PatrolRoutine()
@@ -208,6 +222,7 @@ public class EnemyMovement : MonoBehaviour
             }
         }
     }
+
     bool IsTargetInFan(Transform target)
     {
         // B의 위치에서 타겟 A까지의 벡터 계산
@@ -219,6 +234,7 @@ public class EnemyMovement : MonoBehaviour
         // 만약 총 120도 범위를 원한다면 angle <= 60f 로 변경
         return angle <= 120f;
     }
+
     bool CheckWall(bool wallchasing = false)
     {
         if (playerTransform == null) return false;
@@ -257,7 +273,6 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    public bool getCombat { get { return inCombat; } }
 }
 
 public class Node
