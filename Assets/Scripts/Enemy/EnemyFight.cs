@@ -3,17 +3,25 @@ using UnityEngine;
 
 public class EnemyFight : Gun, IDamageable
 {
-    public int hp = 20;
+    public int hp = 5;
     public bool isStunned;
     public bool onExecution;
     [SerializeField] LayerMask wallLayer;
     [SerializeField] GameObject stunText;
     [SerializeField] Transform canvas;
     [SerializeField] EnemyContoller controller;
+    [SerializeField] GameProcessManager processManager;
+    [SerializeField] SpriteRenderer myRenderer;
     public Transform playerTransform;
 
+    void Start()
+    {
+        canvas = GameObject.Find("Canvas").transform;
+        processManager = GameObject.Find("GameProcessManager").GetComponent<GameProcessManager>();
+    }
     void FixedUpdate()
     {
+        if (hp <= 0) StartCoroutine(OnDead());
         if (stunObj != null) stunObj.transform.position = transform.position;
         if (onExecution)
         {
@@ -51,7 +59,13 @@ public class EnemyFight : Gun, IDamageable
     public void Shoot()
     {
         if (!onExecution)
-            Attack(transform.right);
+        {
+            if (getCurAmmo > 0)
+            {
+                controller.animations.Attack();
+                Attack(transform.right);
+            }
+        }
     }
     IEnumerator Reloading(float reloading_time)
     {
@@ -120,4 +134,28 @@ public class EnemyFight : Gun, IDamageable
         if (stunObj != null) Destroy(stunObj);
     }
     #endregion
+    float disappearTime = 0.6f;
+    public void Killed()
+    {
+        StartCoroutine(OnDead());
+    }
+    IEnumerator OnDead()
+    {
+        isStunned = true;
+        float elapsed = 0f;
+
+        transform.GetChild(0).TryGetComponent<SpriteRenderer>(out SpriteRenderer renderer);
+        renderer.color = new Color(0, 0, 0, 0);
+        while (elapsed < disappearTime)
+        {
+            elapsed += Time.deltaTime;
+            myRenderer.color = new Color(1, 1, 1, Mathf.Lerp(1, 0f, elapsed / disappearTime));
+            yield return null;
+        }
+        Destroy(gameObject);
+    }
+    void OnDestroy()
+    {
+        processManager.enemyCount--;
+    }
 }

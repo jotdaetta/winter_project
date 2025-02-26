@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class EnemyContoller : MonoBehaviour
 {
+
+    public EnemyAnimationController animations;
     [SerializeField] EnemyMovement movement;
     [SerializeField] EnemyFight fight;
 
@@ -26,6 +28,7 @@ public class EnemyContoller : MonoBehaviour
     }
     void Update()
     {
+        animations.Move(movement.aniMoving);
         if (movement.inCombat && !fight.isStunned)
         {
             fight.OnCombat();

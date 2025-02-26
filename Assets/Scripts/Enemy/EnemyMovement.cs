@@ -50,7 +50,7 @@ public class EnemyMovement : MonoBehaviour
         StartCoroutine(UpdatePath());
         StartPatrol();
     }
-
+    public bool aniMoving;
     void SetCollider()
     {
         if (circleCollider != null)
@@ -85,13 +85,12 @@ public class EnemyMovement : MonoBehaviour
 
     public void Stunned()
     {
-        // linearVelocity를 사용하지 않도록 수정
-        // 스턴 상태는 이동하지 않음을 의미 (이미 다음 프레임에서 이동하지 않게 됨)
+        rb.linearVelocity = Vector2.zero;
     }
-
     public void FollowPlayer()
     {
         if (!inCombat || playerTransform == null) return;
+        aniMoving = true;
         Vector2 toPlayer = (Vector2)playerTransform.position - rb.position;
         Vector2 direction = toPlayer.normalized;
         float distance = toPlayer.magnitude;
@@ -162,6 +161,7 @@ public class EnemyMovement : MonoBehaviour
             toShowAngle = target.onGoingShowAngle;
 
             // 부드러운 이동
+            aniMoving = true;
             while (elapsed < target.moveTime)
             {
                 if (inCombat) yield break;
@@ -175,6 +175,7 @@ public class EnemyMovement : MonoBehaviour
                 yield return null;
             }
 
+            aniMoving = false;
             rb.MovePosition(target.position);
 
             toShowAngle = target.onStopShowAngle;

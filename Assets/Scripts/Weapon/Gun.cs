@@ -118,10 +118,11 @@ public class Gun : Weapon
     #endregion
     #region Knife
     [Header("Knife")]
-    [SerializeField] private Vector2 boxSize = new Vector2(1f, 0.5f); // 사각형 크기 조절 가능
+    [SerializeField] private Vector2 boxSize = new Vector2(0.5f, 0.5f); // 사각형 크기 조절 가능
     [SerializeField] private float attackDistance = 1f; // 공격 거리
     [SerializeField] private float attackDelay = 0.5f;
     [SerializeField] private float attackAfterDelay = 1f;
+    [SerializeField] private Vector2 hitOffset = new Vector2(0f, 0f); // 히트 위치 오프셋
     public bool knifeAble = true;
 
     public void KnifeAttack()
@@ -130,27 +131,43 @@ public class Gun : Weapon
         shootable = false;
         StartCoroutine(KnifeAttack_());
     }
+
     IEnumerator KnifeAttack_()
     {
         yield return new WaitForSeconds(attackDelay);
-        Vector2 origin = (Vector2)transform.position + (Vector2)transform.right * attackDistance * 0.5f;
+        Vector2 origin = (Vector2)transform.position + (Vector2)transform.right * attackDistance * 0.5f + hitOffset; // 오프셋 적용
         RaycastHit2D hit = Physics2D.BoxCast(origin, boxSize, 0f, transform.right, attackDistance, detectLayer);
 
         if (hit.collider != null)
         {
-            if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+            if (Vector2.Distance(transform.position, hit.collider.transform.position) < attackDistance)
             {
-                if (damageable.TakeDamage(weaponDamage, true))
+                if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
                 {
-                    transform.TryGetComponent<PlayerFight>(out PlayerFight fight);
-                    hit.transform.TryGetComponent<EnemyFight>(out EnemyFight enfight);
-                    fight.Execute(enfight);
+                    if (damageable.TakeDamage(weaponDamage, true))
+                    {
+                        transform.TryGetComponent<PlayerFight>(out PlayerFight fight);
+                        hit.transform.TryGetComponent<EnemyFight>(out EnemyFight enfight);
+                        fight.Execute(enfight);
+                    }
                 }
             }
+
         }
         yield return new WaitForSeconds(attackAfterDelay);
         shootable = true;
         knifeAble = true;
     }
+
+    private void OnDrawGizmosSelected()
+    {
+        // if (Application.isPlaying) return; // 플레이 모드에서만 표시
+
+        Gizmos.color = Color.red; // 박스 색상 지정
+        Vector2 origin = (Vector2)transform.position + (Vector2)transform.right * attackDistance * 0.5f + hitOffset; // 오프셋 적용
+        Gizmos.matrix = Matrix4x4.TRS(origin, transform.rotation, Vector3.one);
+        Gizmos.DrawWireCube(Vector3.zero, (Vector3)boxSize);
+    }
     #endregion
+
 }

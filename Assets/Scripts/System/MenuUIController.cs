@@ -203,7 +203,7 @@ public class MainUIController : MonoBehaviour
     public void OnButtonEnter(Image img)
     {
         lastEnterImage = img;
-        Color color = new Color(1, 1, 1, 0.02f);
+        Color color = new Color(1, 1, 1, 0.2f);
         img.color = color;
     }
 

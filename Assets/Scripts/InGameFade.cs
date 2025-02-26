@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class InGameFade : MonoBehaviour
 {
     [SerializeField] Image transitionImg;
-    [SerializeField] float transitionTime;
+    public float transitionTime;
     void Start()
     {
         StartCoroutine(FadeIO(false));
@@ -25,5 +25,9 @@ public class InGameFade : MonoBehaviour
             transitionImg.color = color;
             yield return null;
         }
+    }
+    public void Fade(bool isIn = true)
+    {
+        StartCoroutine(FadeIO(isIn));
     }
 }

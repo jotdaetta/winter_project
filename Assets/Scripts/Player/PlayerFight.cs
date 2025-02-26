@@ -12,6 +12,7 @@ public class PlayerFight : Gun, IDamageable
     [SerializeField] float mujukTime;
     [SerializeField] float stunTime = 0.5f;
     [SerializeField] SpriteRenderer spriteRenderer;
+    [SerializeField] PlayerController controller;
     public Vector2 aimDir = new();
 
     delegate void MyFunc();
@@ -243,7 +244,7 @@ public class PlayerFight : Gun, IDamageable
             else
             {
                 isStunned = false;
-                Destroy(ex_target.gameObject);
+                ex_target.Killed();
             }
         }
     }
