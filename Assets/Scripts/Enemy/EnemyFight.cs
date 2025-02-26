@@ -9,6 +9,7 @@ public class EnemyFight : Gun, IDamageable
     [SerializeField] LayerMask wallLayer;
     [SerializeField] GameObject stunText;
     [SerializeField] Transform canvas;
+    [SerializeField] EnemyContoller controller;
     public Transform playerTransform;
 
     void FixedUpdate()
@@ -65,6 +66,7 @@ public class EnemyFight : Gun, IDamageable
     GameObject stunObj;
     public bool TakeDamage(int damage, bool isknife = false)
     {
+        controller.SetCombat(true);
         if (isknife && isStunned)
         {
             onExecution = true;
