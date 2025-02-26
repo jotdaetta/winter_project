@@ -1159,10 +1159,10 @@ TextureImporter:
       name: "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_42"
       rect:
         serializedVersion: 2
-        x: 683
-        y: 84
+        x: 724
+        y: 71
         width: 312
-        height: 126
+        height: 113
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
