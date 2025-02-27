@@ -39,6 +39,8 @@ public class PlayerFight : Gun, IDamageable
     public bool onReloading { get { return onReload; } }
     public void Reloading(float reloading_time)
     {
+        SoundManager.Instance.Play("sfx.reload");
+
         onReload = true;
         StartCoroutine(Reloading_(reloading_time));
     }

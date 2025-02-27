@@ -28,6 +28,8 @@ public class GameProcessManager : MonoBehaviour
     {
         enemyCount = EnemiesCount.childCount;
         gameOverPanel.SetActive(false); // 게임 시작 시 UI 숨김
+
+        SoundManager.Instance.Play("music.fight");
     }
 
     void Update()
@@ -107,7 +109,7 @@ public class GameProcessManager : MonoBehaviour
     {
         Time.timeScale = 1f; // 다시 정상 속도로 변경
         isGameOver = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LoadingController.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

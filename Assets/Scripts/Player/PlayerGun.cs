@@ -10,6 +10,5 @@ public class PlayerGun : Gun
 
     public void Reloading(float reloading_time)
     {
-
     }
 }

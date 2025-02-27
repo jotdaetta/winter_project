@@ -10,11 +10,9 @@ public class SoundManager : MonoBehaviour
 
     public string PlayingMusic;
 
-    void Start()
+    void Awake()
     {
-
         Instance = this;
-        Play("music1");
     }
 
     public void PlayToDist(string musicId, Vector3 originPos, Vector3 targetPos, float distance, float pitch = 0)
