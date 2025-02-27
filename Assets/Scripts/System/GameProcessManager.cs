@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameProcessManager : MonoBehaviour
 {
@@ -14,7 +15,10 @@ public class GameProcessManager : MonoBehaviour
     [SerializeField] LevelController levelController; //나중에 클리어 할떄 씀
     [SerializeField] InGameFade inGameFade;
     [SerializeField] Transform EnemiesCount;
+    [SerializeField] GameObject menuUI;
 
+
+    Image lastEnterImage;
     public int enemyCount;
 
     private bool isGameOver = false;
@@ -32,6 +36,11 @@ public class GameProcessManager : MonoBehaviour
         {
             reAble = false;
             RestartGame();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
+        {
+            Time.timeScale = 0;
+            menuUI.SetActive(true);
         }
     }
 
@@ -99,5 +108,37 @@ public class GameProcessManager : MonoBehaviour
         Time.timeScale = 1f; // 다시 정상 속도로 변경
         isGameOver = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+
+    public void OnButtonEnter(Image img)
+    {
+        lastEnterImage = img;
+        Color color = new Color(1, 1, 1, 0.2f);
+        img.color = color;
+    }
+
+    public void OnButtonExit(Image img)
+    {
+        Color color = new Color(0, 0, 0, 0.8f);
+        img.color = color;
+    }
+
+    public void BokGui()
+    {
+        Time.timeScale = 1f;
+        menuUI.SetActive(false);
+        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+    }
+
+    public void ReStart()
+    {
+        RestartGame();
+    }
+
+    public void ToMenu()
+    {
+        Time.timeScale = 1f;
+        levelController.BackToMenu();
     }
 }

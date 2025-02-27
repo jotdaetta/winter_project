@@ -194,9 +194,9 @@ public class MainUIController : MonoBehaviour
         settingsPannel.SetActive(!settingsPannel.activeSelf);
         lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
-    public void HowTo()
+    public void HowTo(bool parm)
     {
-        howtoPannel.SetActive(!howtoPannel.activeSelf);
+        howtoPannel.SetActive(parm);
         lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
 
