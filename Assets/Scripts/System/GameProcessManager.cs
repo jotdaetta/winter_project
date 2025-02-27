@@ -109,7 +109,7 @@ public class GameProcessManager : MonoBehaviour
     {
         Time.timeScale = 1f; // 다시 정상 속도로 변경
         isGameOver = false;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        LoadingController.LoadScene(SceneManager.GetActiveScene().name);
     }
 
 

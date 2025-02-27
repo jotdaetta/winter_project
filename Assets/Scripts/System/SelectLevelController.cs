@@ -19,6 +19,6 @@ public class SelectLevelController : MonoBehaviour
     {
         PlayerPrefs.DeleteAll();
         PlayerPrefs.SetInt($"{Levels.LevelUnLock}1", 1);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        LoadingController.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

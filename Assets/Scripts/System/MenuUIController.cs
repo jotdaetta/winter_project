@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MainUIController : MonoBehaviour
 {
@@ -146,7 +145,7 @@ public class MainUIController : MonoBehaviour
         StartCoroutine(FadeIO(true, () =>
         {
             PlayerPrefs.SetInt(Levels.CurrentLevel, lastClickedLevel);
-            SceneManager.LoadScene($"{levelName}{lastClickedLevel}");
+            LoadingController.LoadScene($"{levelName}{lastClickedLevel}");
         }, 0.4f, 0, true));
     }
     public void LevelClicked(int level)
