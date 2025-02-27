@@ -28,6 +28,8 @@ public class GameProcessManager : MonoBehaviour
     {
         enemyCount = EnemiesCount.childCount;
         gameOverPanel.SetActive(false); // 게임 시작 시 UI 숨김
+
+        SoundManager.Instance.Play("music.fight");
     }
 
     void Update()
