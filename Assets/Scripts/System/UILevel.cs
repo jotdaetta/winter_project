@@ -37,6 +37,6 @@ public class UILevel : MonoBehaviour, IPointerClickHandler
     {
         yield return new WaitForSeconds(loadDelayTime);
         PlayerPrefs.SetInt(Levels.CurrentLevel, levelNumber);
-        SceneManager.LoadScene($"{levelName}{levelNumber}");
+        LoadingController.LoadScene($"{levelName}{levelNumber}");
     }
 }

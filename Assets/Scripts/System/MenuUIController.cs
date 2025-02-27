@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class MainUIController : MonoBehaviour
 {
@@ -30,6 +29,8 @@ public class MainUIController : MonoBehaviour
     private void Start()
     {
         SetScrollViewContentsHeight();
+
+        SoundManager.Instance.Play("music.main");
     }
 
     private void Update()
@@ -144,11 +145,13 @@ public class MainUIController : MonoBehaviour
         StartCoroutine(FadeIO(true, () =>
         {
             PlayerPrefs.SetInt(Levels.CurrentLevel, lastClickedLevel);
-            SceneManager.LoadScene($"{levelName}{lastClickedLevel}");
+            LoadingController.LoadScene($"{levelName}{lastClickedLevel}");
         }, 0.4f, 0, true));
     }
     public void LevelClicked(int level)
     {
+        SoundManager.Instance.Play("ui.click");
+        
         if (onLevelChoiceAction) return;
         onLevelChoiceAction = true;
         if (lastClickedLevel == level)
@@ -179,14 +182,23 @@ public class MainUIController : MonoBehaviour
     {
         if (onTransitionAction) return;
         onTransitionAction = true;
-        StartCoroutine(FadeIO(true, () => mapSceneTransform.position = Vector2.zero));
+        StartCoroutine(FadeIO(true, () => {
+            mapSceneTransform.position = Vector2.zero;
+        }));
+
+        SoundManager.Instance.Play("ui.click");
     }
 
     public void CloseMap()
     {
         if (onTransitionAction) return;
         onTransitionAction = true;
-        StartCoroutine(FadeIO(true, () => mapSceneTransform.position = new Vector2(2770, 0)));
+        StartCoroutine(FadeIO(true, () => {
+                mapSceneTransform.position = new Vector2(2770, 0);
+            }
+        ));
+
+        SoundManager.Instance.Play("ui.click");
     }
 
     public void Settings()
@@ -198,6 +210,8 @@ public class MainUIController : MonoBehaviour
     {
         howtoPannel.SetActive(parm);
         lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+
+        SoundManager.Instance.Play("ui.click");
     }
 
     public void OnButtonEnter(Image img)
