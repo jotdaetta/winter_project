@@ -30,6 +30,8 @@ public class Gun : Weapon
             return false;
         }
 
+        SoundManager.Instance.Play("sfx.pistol");
+
         int shootingAmmoCount = Mathf.Min(ammoPerShot, curAmmoCount);
         curAmmoCount -= shootingAmmoCount;
 
