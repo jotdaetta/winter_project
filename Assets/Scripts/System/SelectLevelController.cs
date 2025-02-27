@@ -5,11 +5,8 @@ public class SelectLevelController : MonoBehaviour
 {
     [SerializeField] UILevel[] uiLevels;
 
-
-
     void Awake()
     {
-
         for (int i = 0; i < Levels.MaxLevel; ++i)
         {
             var levelData = Levels.LoadLevelData(i + 1);
