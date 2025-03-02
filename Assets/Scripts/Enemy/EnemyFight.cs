@@ -20,7 +20,7 @@ public class EnemyFight : Gun, IDamageable
     {
         if (lineRenderer != null)
             lineRenderer.enabled = false;
-        canvas = GameObject.Find("Canvas").transform;
+        canvas = GameObject.Find("StunTransform").transform;
         processManager = GameObject.Find("GameProcessManager").GetComponent<GameProcessManager>();
     }
     void FixedUpdate()
@@ -183,6 +183,11 @@ public class EnemyFight : Gun, IDamageable
     {
         isStunned = true;
         float elapsed = 0f;
+
+        if (stunObj != null)
+        {
+            Destroy(stunObj);
+        }
 
         transform.GetChild(0).TryGetComponent<SpriteRenderer>(out SpriteRenderer renderer);
         renderer.color = new Color(0, 0, 0, 0);

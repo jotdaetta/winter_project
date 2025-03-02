@@ -15,6 +15,7 @@ public class MainUIController : MonoBehaviour
     [SerializeField] Image transitionImg;
     [SerializeField] Image AttackStartFrame;
     [SerializeField] Text pointName;
+    [SerializeField] Text clearTimeText;
     [SerializeField] float transitionTime;
     [SerializeField] float transitionDelay;
 
@@ -151,7 +152,26 @@ public class MainUIController : MonoBehaviour
     public void LevelClicked(int level)
     {
         SoundManager.Instance.Play("ui.click");
-        
+        string curLevelKey = $"{TimerController.TIMERECORD}{Levels.CurrentLevel}";
+        float clearTime;
+        string TimeString;
+        if (PlayerPrefs.HasKey(curLevelKey))
+            clearTime = PlayerPrefs.GetFloat(curLevelKey);
+        else
+            clearTime = -1;
+        if (clearTime == -1)
+        {
+            TimeString = "Null";
+        }
+        else
+        {
+            string hour = clearTime >= 3600 ? $"{Mathf.FloorToInt(clearTime / 3600)}:" : "";
+            string min = (clearTime % 3600 / 60 >= 10) ? $"{Mathf.FloorToInt(clearTime % 3600 / 60)}:" : (clearTime >= 3600 ? "0" : "" + $"{Mathf.FloorToInt(clearTime % 3600 / 60)}:");
+            string under = clearTime % 60 >= 10 ? (clearTime % 60).ToString("F2") : $"0{(clearTime % 60).ToString("F2")}";
+            TimeString = $"{hour}{min}{under}";
+        }
+        clearTimeText.text = $"ClearTime : {TimeString}";
+
         if (onLevelChoiceAction) return;
         onLevelChoiceAction = true;
         if (lastClickedLevel == level)
@@ -182,7 +202,8 @@ public class MainUIController : MonoBehaviour
     {
         if (onTransitionAction) return;
         onTransitionAction = true;
-        StartCoroutine(FadeIO(true, () => {
+        StartCoroutine(FadeIO(true, () =>
+        {
             mapSceneTransform.position = Vector2.zero;
         }));
 
@@ -193,9 +214,10 @@ public class MainUIController : MonoBehaviour
     {
         if (onTransitionAction) return;
         onTransitionAction = true;
-        StartCoroutine(FadeIO(true, () => {
-                mapSceneTransform.position = new Vector2(2770, 0);
-            }
+        StartCoroutine(FadeIO(true, () =>
+        {
+            mapSceneTransform.position = new Vector2(2770, 0);
+        }
         ));
 
         SoundManager.Instance.Play("ui.click");
