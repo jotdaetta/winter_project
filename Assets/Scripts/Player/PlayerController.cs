@@ -33,20 +33,21 @@ public class PlayerController : MonoBehaviour
         if (fighting.hp <= 0)
         {
             processManager.GameOver();
+            fighting.DelStunObj();
         }
     }
 
     void KeyControll()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl)) // 락온 토글
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton9)) // 락온 토글
         {
             fighting.LockOn();
         }
-        if (Input.GetKeyDown(KeyCode.Tab)) // 락온 변경
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetAxis("Joystick Axis 4") != 0 || Input.GetAxis("Joystick Axis 5") != 0) // 락온 변경
         {
             fighting.ChangeLockOn();
         }
-        if (Input.GetKeyDown(KeyCode.I)) // 근접
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton2)) // 근접
         {
             if (fighting.knifeAble)
             {
@@ -54,11 +55,11 @@ public class PlayerController : MonoBehaviour
                 fighting.KnifeAttack();
             }
         }
-        if (Input.GetKeyDown(KeyCode.X)) // 처형 연타
+        if (Input.GetKeyDown(KeyCode.X)) // 처형 연타//Input.GetKey(KeyCode.JoystickButton2))
         {
             fighting.ExecutionGaugeFill();
         }
-        if (Input.GetKey(KeyCode.J)) // 원거리 키 누른거
+        if (Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.JoystickButton7)) // 원거리 키 누른거
         {
             if (!fighting.getShootable || fighting.onReloading) return;
             if (fighting.getCurAmmo > 0)
@@ -68,24 +69,24 @@ public class PlayerController : MonoBehaviour
             }
             fighting.Shoot();
         }
-        if (Input.GetKeyUp(KeyCode.J)) // 원거리 키 뗀거
+        if (Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.JoystickButton7)) // 원거리 키 뗀거
         {
             movement.Slow(false);
         }
-        if (Input.GetKeyDown(KeyCode.R)) // 재장전
+        if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton5)) // 재장전
         {
             if (fighting.onReloading || !fighting.CheckReloadable()) return;
             fighting.Reloading(fighting.getReloadTime);
             ui.ReloadSlider(fighting.getReloadTime);
         }
-        if (Input.GetKeyDown(KeyCode.L) && !fighting.isStunned) // 대쉬
+        if ((Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton6)) && !fighting.isStunned) // 대쉬
         {
             movement.Dash();
         }
-        if (Input.GetKeyDown(KeyCode.LeftShift)) // 회전 락
-        {
-            movement.StayLocked();
-        }
+        // if (Input.GetKeyDown(KeyCode.LeftShift)) // 회전 락
+        // {
+        // movement.StayLocked();
+        // }
     }
 
     void OnTriggerStay2D(Collider2D collision)
