@@ -203,22 +203,34 @@ public class PlayerFight : Gun, IDamageable
     [SerializeField] float ex_processAdd = 0.15f;
     [SerializeField] float ex_shakeStrength = 1;
     [SerializeField] Transform canvas;
+    [SerializeField] float ex_chance = 50;
     GameObject stunObj;
     EnemyFight ex_target;
     float ex_process;
     public bool executing;
     float ex_eclipsed;
+    public bool Chance(float probability)
+    {
+        return UnityEngine.Random.value < probability / 100f;
+    }
     public void Execute(EnemyFight enemy)
     {
-        isStunned = true;
-        ex_target = enemy;
-        gameObject.layer = 8;
-        executing = true;
-        ex_eclipsed = 0;
-        ex_process = 0;
-        ex_UI.SetActive(true);
-        camManager.Shake(ex_shakeStrength, ex_time);
-        camManager.CloseUp(2, 1.5f, ex_time);
+        if (Chance(ex_chance))
+        {
+            isStunned = true;
+            ex_target = enemy;
+            gameObject.layer = 8;
+            executing = true;
+            ex_eclipsed = 0;
+            ex_process = 0;
+            ex_UI.SetActive(true);
+            camManager.Shake(ex_shakeStrength, ex_time);
+            camManager.CloseUp(2, 1.5f, ex_time);
+        }
+        else
+        {
+            enemy.Killed();
+        }
     }
     public void ExecutionGaugeFill()
     {
