@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.J)) // 원거리 키 누른거
         {
-            if (!fighting.getShootable) return;
+            if (!fighting.getShootable || fighting.onReloading) return;
             if (fighting.getCurAmmo > 0)
             {
                 movement.Slow();

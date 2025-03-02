@@ -1,0 +1,429 @@
+fileFormatVersion: 2
+guid: d3ba61791dd5e4af2a6b005434f7fabc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -868820534071046696
+    second: sturn-Sheet_0
+  - first:
+      213: 3300722300030258241
+    second: sturn-Sheet_1
+  - first:
+      213: 4525826816098076683
+    second: sturn-Sheet_2
+  - first:
+      213: -197008153556300423
+    second: sturn-Sheet_3
+  - first:
+      213: -4870398114771003418
+    second: sturn-Sheet_4
+  - first:
+      213: -4074452370610546371
+    second: sturn-Sheet_5
+  - first:
+      213: -5784344709555115259
+    second: sturn-Sheet_6
+  - first:
+      213: 7339347121844668669
+    second: sturn-Sheet_7
+  - first:
+      213: 6941848963764107192
+    second: sturn-Sheet_8
+  - first:
+      213: 341469126343315764
+    second: sturn-Sheet_9
+  - first:
+      213: -642975099757362116
+    second: sturn-Sheet_10
+  - first:
+      213: 3398305178681059196
+    second: sturn-Sheet_11
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: sturn-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 18
+        width: 73
+        height: 69
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8dd4125d35451f3f0800000000000000
+      internalID: -868820534071046696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 12
+        width: 82
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 14c8383a1758ecd20800000000000000
+      internalID: 3300722300030258241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 207
+        y: 14
+        width: 75
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b088678a287fece30800000000000000
+      internalID: 4525826816098076683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 311
+        y: 13
+        width: 69
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 97dcb6dc026144df0800000000000000
+      internalID: -197008153556300423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 403
+        y: 9
+        width: 83
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6e7975618bed86cb0800000000000000
+      internalID: -4870398114771003418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 506
+        y: 7
+        width: 78
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3992830823a477c0800000000000000
+      internalID: -4074452370610546371
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 605
+        y: 11
+        width: 76
+        height: 70
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 50bae882221e9bfa0800000000000000
+      internalID: -5784344709555115259
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 704
+        y: 0
+        width: 83
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: df846d062599ad560800000000000000
+      internalID: 7339347121844668669
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 2
+        width: 76
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b7b2916ad6665060800000000000000
+      internalID: 6941848963764107192
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 918
+        y: 1
+        width: 71
+        height: 77
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 431d4797c542db400800000000000000
+      internalID: 341469126343315764
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_10
+      rect:
+        serializedVersion: 2
+        x: 1015
+        y: 2
+        width: 84
+        height: 83
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c348a8bad81b317f0800000000000000
+      internalID: -642975099757362116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: sturn-Sheet_11
+      rect:
+        serializedVersion: 2
+        x: 1117
+        y: 11
+        width: 79
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c77a7a51e84392f20800000000000000
+      internalID: 3398305178681059196
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      sturn-Sheet_0: -868820534071046696
+      sturn-Sheet_1: 3300722300030258241
+      sturn-Sheet_10: -642975099757362116
+      sturn-Sheet_11: 3398305178681059196
+      sturn-Sheet_2: 4525826816098076683
+      sturn-Sheet_3: -197008153556300423
+      sturn-Sheet_4: -4870398114771003418
+      sturn-Sheet_5: -4074452370610546371
+      sturn-Sheet_6: -5784344709555115259
+      sturn-Sheet_7: 7339347121844668669
+      sturn-Sheet_8: 6941848963764107192
+      sturn-Sheet_9: 341469126343315764
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
