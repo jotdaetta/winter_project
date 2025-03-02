@@ -225,6 +225,7 @@ public class PlayerFight : Gun, IDamageable
         if (!executing) return;
         ex_process += ex_processAdd;
     }
+    [SerializeField] float afterExetutionMujuk = 0.5f;
     void ExecutionGaugeSet()
     {
         // x = Mathf.Clamp(x, 0, gridSizeX - 1);
@@ -238,7 +239,7 @@ public class PlayerFight : Gun, IDamageable
         ex_processImage.color = color;
         if (ex_process == 1 || ex_eclipsed >= ex_time)
         {
-            StartCoroutine(GiveDelay(() => gameObject.layer = 3, 0.2f));
+            StartCoroutine(GiveDelay(() => gameObject.layer = 3, afterExetutionMujuk));
             executing = false;
             camManager.StopShake();
             camManager.CloseOut(0.3f);
@@ -276,6 +277,13 @@ public class PlayerFight : Gun, IDamageable
     {
         if (targetRenderer == null) return;
         aimDir = targetRenderer.transform.position;
+    }
+    public void DelStunObj()
+    {
+        if (stunObj != null)
+        {
+            Destroy(stunObj);
+        }
     }
     #endregion
 }

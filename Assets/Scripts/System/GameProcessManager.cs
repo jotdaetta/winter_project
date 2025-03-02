@@ -48,19 +48,20 @@ public class GameProcessManager : MonoBehaviour
             Time.timeScale = 0;
             menuUI.SetActive(true);
         }
-    }
-
-    public void GameClear()
-    {
         if (enemyCount > 0)
         {
             mission.text = "임무 : 모든 적 제거";
-            return;
         }
         else
         {
             mission.text = "임무 : 화살표 위치로 이동";
         }
+    }
+
+    public void GameClear()
+    {
+        if (enemyCount > 0) return;
+
         // levelController.Clear();
         // levelController.BackToMenu();
         gameTimer.TimerActive(false);
