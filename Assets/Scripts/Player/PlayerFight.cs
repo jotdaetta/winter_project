@@ -62,6 +62,8 @@ public class PlayerFight : Gun, IDamageable
     #region Lock On
     [Header("록온")]
     [SerializeField] LayerMask WallLayer;
+    [SerializeField] float LockOnMaxDistance = 14;
+    [SerializeField] float LockOnMaxLostDistance = 15;
     List<GameObject> enemies = new();
     SpriteRenderer targetRenderer = null;
     public bool canAimToLockedEnemy;
@@ -141,6 +143,11 @@ public class PlayerFight : Gun, IDamageable
             SetLockOn();
             return;
         }
+        // Beyond Distance
+        if (Vector2.Distance(transform.position, targetRenderer.transform.position) > LockOnMaxLostDistance)
+        {
+            ChangeLockOn();
+        }
         // wallbang
         if (CheckWallBang(transform.position, targetRenderer.transform.position))
         {
@@ -160,7 +167,7 @@ public class PlayerFight : Gun, IDamageable
     {
         for (int i = enemies.Length - 1; i >= 0; i--)
         {
-            if (CheckWallBang(transform.position, enemies[i].transform.position))
+            if (CheckWallBang(transform.position, enemies[i].transform.position) || Vector2.Distance(transform.position, enemies[i].transform.position) > maxDistance)
                 enemies[i] = null;
         }
         return enemies.Where(e => e != null).ToList();
@@ -231,7 +238,7 @@ public class PlayerFight : Gun, IDamageable
         ex_processImage.color = color;
         if (ex_process == 1 || ex_eclipsed >= ex_time)
         {
-            gameObject.layer = 3;
+            StartCoroutine(GiveDelay(() => gameObject.layer = 3, 0.2f));
             executing = false;
             camManager.StopShake();
             camManager.CloseOut(0.3f);

@@ -17,6 +17,7 @@ public class GameProcessManager : MonoBehaviour
     [SerializeField] Transform EnemiesCount;
     [SerializeField] GameObject menuUI;
     [SerializeField] InGameTimer gameTimer;
+    [SerializeField] Text mission;
 
 
     Image lastEnterImage;
@@ -51,10 +52,19 @@ public class GameProcessManager : MonoBehaviour
 
     public void GameClear()
     {
-        if (enemyCount > 0) return;
+        if (enemyCount > 0)
+        {
+            mission.text = "임무 : 모든 적 제거";
+            return;
+        }
+        else
+        {
+            mission.text = "임무 : 화살표 위치로 이동";
+        }
         // levelController.Clear();
         // levelController.BackToMenu();
         gameTimer.TimerActive(false);
+        gameTimer.EvaluateRecord();
         StartCoroutine(OnClear());
     }
 
