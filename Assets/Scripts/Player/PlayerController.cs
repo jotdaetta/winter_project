@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
                 fighting.KnifeAttack();
             }
         }
-        if (Input.GetKeyDown(KeyCode.X)) // 처형 연타//Input.GetKey(KeyCode.JoystickButton2))
+        if (Input.GetKeyDown(KeyCode.X)) // 처형
         {
             fighting.ExecutionGaugeFill();
         }
