@@ -30,11 +30,14 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("References")]
     public Transform playerTransform;      // 플레이어 Transform
+    Transform canvas;
 
     public bool inCombat = false;         // 전투 모드 여부
     private Coroutine patrolCoroutine;
     [SerializeField] Rigidbody2D rb;        // Rigidbody2D 컴포넌트 참조
-    [SerializeField] CircleCollider2D circleCollider; // 플레이어 탐지를 위한 콜라이더
+    [SerializeField] CircleCollider2D circleCollider; // 플레이어 탐지를 위한 콜라이더 
+    [SerializeField] GameObject warningObjPrefab;
+    GameObject wariningObj;
 
     // A* 경로 찾기를 위한 변수들
     private List<Node> path;               // 현재 경로 (노드 리스트)
@@ -45,10 +48,19 @@ public class EnemyMovement : MonoBehaviour
 
     void Start()
     {
+        canvas = GameObject.Find("Canvas").transform;
         toShowAngle = transform.eulerAngles.z;
         SetCollider();
         StartCoroutine(UpdatePath());
         StartPatrol();
+    }
+    readonly Vector3 wariningObjOffset = new Vector3(0.5f, 0.5f);
+    private void Update()
+    {
+        if (wariningObj != null)
+        {
+            wariningObj.transform.position = transform.position + wariningObjOffset;
+        }
     }
     public bool aniMoving;
     void SetCollider()
@@ -64,7 +76,7 @@ public class EnemyMovement : MonoBehaviour
         if (playerTransform == null) return;
         if (inCombat)
         {
-            Vector2 direction = playerTransform.position - transform.position;
+            Vector2 direction = playerTransform.position - playerTransform.up * 0.2f - playerTransform.right * 0.2f - transform.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, angle), Time.deltaTime * 7);
             toShowAngle = transform.eulerAngles.z;
@@ -148,12 +160,10 @@ public class EnemyMovement : MonoBehaviour
 
     IEnumerator PatrolRoutine()
     {
-        print("패트롤 시작");
         int currentIndex = 0;
 
         while (true)
         {
-            print("이동");
             Vector2 startPos = rb.position;
             PatrolPoint target = patrolPath[currentIndex];
             float elapsed = 0f;
@@ -216,12 +226,23 @@ public class EnemyMovement : MonoBehaviour
                 playerTransform = other.transform;
             }
             if (CheckWall() || !IsTargetInFan(playerTransform)) return;
-            inCombat = true;
+
+            // 여기 느낌표 추가
             if (patrolCoroutine != null)
             {
                 StopCoroutine(patrolCoroutine);
             }
+            if (wariningObj == null && !inCombat)
+                StartCoroutine(ShowWarning());
         }
+    }
+    [SerializeField] float showWarningTime = 0.5f;
+    IEnumerator ShowWarning()
+    {
+        wariningObj = Instantiate(warningObjPrefab, canvas);
+        yield return new WaitForSeconds(showWarningTime);
+        Destroy(wariningObj);
+        inCombat = true;
     }
 
     bool IsTargetInFan(Transform target)

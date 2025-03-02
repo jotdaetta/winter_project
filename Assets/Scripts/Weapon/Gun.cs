@@ -4,6 +4,7 @@ using UnityEngine;
 public class Gun : Weapon
 {
     #region Gun
+
     [Header("Gun")]
     [SerializeField] private int maxAmmoCount = 8;
     [SerializeField] private int curAmmoCount;
@@ -15,9 +16,10 @@ public class Gun : Weapon
     [SerializeField] private GameObject bulletTrailPrefab;
     [SerializeField] private float trailDuration = 0.05f;
 
-    [SerializeField] Vector2 shootOffset = new();
+    public Vector2 shootOffset = new();
 
-    bool shootable = true;
+    public bool shootable = true;
+
 
     public virtual bool Attack(Vector2 direction)
     {
@@ -43,7 +45,8 @@ public class Gun : Weapon
 
         if (hit)
         {
-            if (hit.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
+            print(hit.collider.gameObject.name);
+            if (hit.collider.transform.TryGetComponent<IDamageable>(out IDamageable damageable))
             {
                 damageable.TakeDamage(weaponDamage * shootingAmmoCount);
             }
@@ -62,6 +65,8 @@ public class Gun : Weapon
             lr.SetPosition(0, startPoint);
             lr.SetPosition(1, endPoint);
         }
+        lr.sortingLayerName = "effect";
+        lr.sortingOrder = 0;
         StartCoroutine(DestroyTrail(trail, trailDuration));
     }
 
@@ -171,5 +176,4 @@ public class Gun : Weapon
         Gizmos.DrawWireCube(Vector3.zero, (Vector3)boxSize);
     }
     #endregion
-
 }

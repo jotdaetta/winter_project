@@ -12,10 +12,14 @@ public class EnemyFight : Gun, IDamageable
     [SerializeField] EnemyContoller controller;
     [SerializeField] GameProcessManager processManager;
     [SerializeField] SpriteRenderer myRenderer;
+    [SerializeField] private float laserDuration = 0.1f;
+    [SerializeField] LineRenderer lineRenderer;
     public Transform playerTransform;
 
     void Start()
     {
+        if (lineRenderer != null)
+            lineRenderer.enabled = false;
         canvas = GameObject.Find("Canvas").transform;
         processManager = GameObject.Find("GameProcessManager").GetComponent<GameProcessManager>();
     }
@@ -29,6 +33,7 @@ public class EnemyFight : Gun, IDamageable
             if (stunObj != null)
                 Destroy(stunObj);
         }
+        Lasor();
     }
 
     #region InCombat
@@ -40,6 +45,7 @@ public class EnemyFight : Gun, IDamageable
             {
                 if (getShootable && CheckAim())
                 {
+                    shootable = false;
                     Shoot();
                 }
             }
@@ -62,8 +68,8 @@ public class EnemyFight : Gun, IDamageable
         {
             if (getCurAmmo > 0)
             {
-                controller.animations.Attack();
-                Attack(transform.right);
+                LaserAndShoot();
+
             }
         }
     }
@@ -134,6 +140,39 @@ public class EnemyFight : Gun, IDamageable
         if (stunObj != null) Destroy(stunObj);
     }
     #endregion
+    #region Lasor
+    void Lasor()
+    {
+        Vector2 startPoint = (Vector2)transform.position + (Vector2)transform.right * shootOffset.y + (Vector2)transform.up * shootOffset.x;
+        Vector2 direction = transform.right;
+
+        RaycastHit2D hit = Physics2D.Raycast(startPoint, direction, maxDistance, detectLayer);
+        Vector2 endPoint = hit ? hit.point : startPoint + direction * maxDistance;
+
+        lineRenderer.SetPosition(0, startPoint);
+        lineRenderer.SetPosition(1, endPoint);
+    }
+    public void LaserAndShoot()
+    {
+        if (lineRenderer == null)
+        {
+            controller.animations.Attack();
+            Attack(transform.right);
+            return;
+        }
+        StartCoroutine(LaserRoutine());
+    }
+    IEnumerator LaserRoutine()
+    {
+        lineRenderer.enabled = true;
+
+        yield return new WaitForSeconds(laserDuration);
+        lineRenderer.enabled = false;
+        controller.animations.Attack();
+        Attack(transform.right);
+    }
+    #endregion
+    #region  Death
     float disappearTime = 0.6f;
     public void Killed()
     {
@@ -158,4 +197,5 @@ public class EnemyFight : Gun, IDamageable
     {
         processManager.enemyCount--;
     }
+    #endregion
 }
