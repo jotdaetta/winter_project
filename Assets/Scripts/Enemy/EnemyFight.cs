@@ -168,6 +168,7 @@ public class EnemyFight : Gun, IDamageable
 
         yield return new WaitForSeconds(laserDuration);
         lineRenderer.enabled = false;
+        if (isStunned) yield break;
         controller.animations.Attack();
         Attack(transform.right);
     }

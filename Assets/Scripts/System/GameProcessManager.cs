@@ -16,6 +16,7 @@ public class GameProcessManager : MonoBehaviour
     [SerializeField] InGameFade inGameFade;
     [SerializeField] Transform EnemiesCount;
     [SerializeField] GameObject menuUI;
+    [SerializeField] InGameTimer gameTimer;
 
 
     Image lastEnterImage;
@@ -28,6 +29,7 @@ public class GameProcessManager : MonoBehaviour
     {
         enemyCount = EnemiesCount.childCount;
         gameOverPanel.SetActive(false); // 게임 시작 시 UI 숨김
+        gameTimer.TimerActive(true);
 
         SoundManager.Instance.Play("music.fight");
     }
@@ -41,6 +43,7 @@ public class GameProcessManager : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
         {
+            gameTimer.TimerActive(false);
             Time.timeScale = 0;
             menuUI.SetActive(true);
         }
@@ -51,6 +54,7 @@ public class GameProcessManager : MonoBehaviour
         if (enemyCount > 0) return;
         // levelController.Clear();
         // levelController.BackToMenu();
+        gameTimer.TimerActive(false);
         StartCoroutine(OnClear());
     }
 
@@ -77,6 +81,7 @@ public class GameProcessManager : MonoBehaviour
 
     public void GameOver()
     {
+        gameTimer.TimerActive(false);
         if (isGameOver) return;
         isGameOver = true;
 
@@ -128,6 +133,7 @@ public class GameProcessManager : MonoBehaviour
 
     public void BokGui()
     {
+        gameTimer.TimerActive(true);
         Time.timeScale = 1f;
         menuUI.SetActive(false);
         lastEnterImage.color = new Color(0, 0, 0, 0.8f);
