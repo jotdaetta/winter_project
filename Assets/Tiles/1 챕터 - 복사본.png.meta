@@ -1221,6 +1221,28 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_39\uCEE8\uD14C\uC774\uB108"
+      rect:
+        serializedVersion: 2
+        x: 1811
+        y: 331
+        width: 107
+        height: 17
+      alignment: 9
+      pivot: {x: 0.50000274, y: 0.49999192}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 58b2f4be11b39494c84e833ebe25fa3a
+      internalID: -1519037177
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
@@ -1269,6 +1291,7 @@ TextureImporter:
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_36": 5813201501497786882
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_37": -96983572611794389
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_38": -5190102412052251728
+      "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_39\uCEE8\uD14C\uC774\uB108": -1519037177
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_4": -8814019561056216502
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_40": 2561104368998810061
       "1 \uCC55\uD130 - \uBCF5\uC0AC\uBCF8_41": 3331810384078007973
