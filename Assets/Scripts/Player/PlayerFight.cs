@@ -89,6 +89,7 @@ public class PlayerFight : Gun, IDamageable
     }
     public void ChangeLockOn()
     {
+        if (!lockedOn) return;
         if (index < enemies.Count)
             enemies[index] = null;
         SetLockOn();
