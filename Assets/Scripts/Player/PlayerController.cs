@@ -49,8 +49,8 @@ public class PlayerController : MonoBehaviour
     bool flag;
     void KeyControll()
     {
-        float rsX = Input.GetAxis("RightStickHorizontal");
-        float rsY = Input.GetAxis("RightStickVertical");
+        float rsX = Input.GetAxisRaw("RightStickHorizontal");
+        float rsY = Input.GetAxisRaw("RightStickVertical");
         rsrsrs.text = $"X : {rsX} |  Y : {rsY}";
         rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
         rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
