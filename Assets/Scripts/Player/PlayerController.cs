@@ -49,9 +49,9 @@ public class PlayerController : MonoBehaviour
     {
         float rsX = Input.GetAxis("RightStickHorizontal");
         float rsY = Input.GetAxis("RightStickVertical");
-        print($"RS_X : {rsX} | RS_Y {rsY}");
         rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
         rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
+        print($"RS_X : {rsX} | RS_Y {rsY}");
         if (rsX == 0 && rsY == 0) flag = false;
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
