@@ -1,3 +1,4 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -43,7 +44,7 @@ public class PlayerController : MonoBehaviour
         {
             fighting.LockOn();
         }
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetAxis("RightStickHorizontal") != 0 || Input.GetAxis("RightStickVertical") != 0) // 락온 변경
+        if (Input.GetKeyDown(KeyCode.Tab) || Mathf.Abs(Input.GetAxis("RightStickHorizontal")) > 0.1f || Mathf.Abs(Input.GetAxis("RightStickVertical")) > 0.1f) // 락온 변경
         {
             fighting.ChangeLockOn();
         }
