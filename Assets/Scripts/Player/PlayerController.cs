@@ -46,9 +46,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float rsDeadZone = 0.2f;
     void KeyControll()
     {
-
         float rsX = Input.GetAxis("RightStickHorizontal");
         float rsY = Input.GetAxis("RightStickVertical");
+        print($"RS_X : {rsX} | RS_Y {rsY}");
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
             print("락온켜짐");
