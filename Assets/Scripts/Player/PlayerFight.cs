@@ -215,6 +215,7 @@ public class PlayerFight : Gun, IDamageable
     }
     public void Execute(EnemyFight enemy)
     {
+        if (executing) return;
         if (Chance(ex_chance))
         {
             isStunned = true;

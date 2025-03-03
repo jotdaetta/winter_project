@@ -39,27 +39,24 @@ public class PlayerController : MonoBehaviour
 
     void KeyControll()
     {
-        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetKeyDown(KeyCode.JoystickButton9)) // 락온 토글
+        if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
             fighting.LockOn();
         }
-        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetAxis("Joystick Axis 4") != 0 || Input.GetAxis("Joystick Axis 5") != 0) // 락온 변경
+        if (Input.GetKeyDown(KeyCode.Tab) || Input.GetAxis("RightStickHorizontal") != 0 || Input.GetAxis("RightStickVertical") != 0) // 락온 변경
         {
             fighting.ChangeLockOn();
         }
-        if (Input.GetKeyDown(KeyCode.I) || Input.GetKeyDown(KeyCode.JoystickButton2)) // 근접
+        if (Input.GetKeyDown(KeyCode.I) || Input.GetButtonDown("MeleeAttack")) // 근접
         {
-            if (fighting.knifeAble)
+            fighting.ExecutionGaugeFill();
+            if (fighting.knifeAble && !fighting.executing)
             {
                 aniController.KnifeHit();
                 fighting.KnifeAttack();
             }
         }
-        if (Input.GetKeyDown(KeyCode.X)) // 처형
-        {
-            fighting.ExecutionGaugeFill();
-        }
-        if (Input.GetKey(KeyCode.J) || Input.GetKey(KeyCode.JoystickButton7)) // 원거리 키 누른거
+        if (Input.GetKey(KeyCode.J) || Input.GetButton("RangeAttack")) // 원거리 키 누른거
         {
             if (!fighting.getShootable || fighting.onReloading) return;
             if (fighting.getCurAmmo > 0)
@@ -69,17 +66,17 @@ public class PlayerController : MonoBehaviour
             }
             fighting.Shoot();
         }
-        if (Input.GetKeyUp(KeyCode.J) || Input.GetKeyUp(KeyCode.JoystickButton7)) // 원거리 키 뗀거
+        if (Input.GetKeyUp(KeyCode.J) || Input.GetButtonUp("RangeAttack")) // 원거리 키 뗀거
         {
             movement.Slow(false);
         }
-        if (Input.GetKeyDown(KeyCode.R) || Input.GetKeyDown(KeyCode.JoystickButton5)) // 재장전
+        if (Input.GetKeyDown(KeyCode.R) || Input.GetButtonDown("Reload")) // 재장전
         {
             if (fighting.onReloading || !fighting.CheckReloadable()) return;
             fighting.Reloading(fighting.getReloadTime);
             ui.ReloadSlider(fighting.getReloadTime);
         }
-        if ((Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.JoystickButton6)) && !fighting.isStunned) // 대쉬
+        if ((Input.GetKeyDown(KeyCode.L) || Input.GetButtonDown("Dodge")) && !fighting.isStunned) // 대쉬
         {
             movement.Dash();
         }
