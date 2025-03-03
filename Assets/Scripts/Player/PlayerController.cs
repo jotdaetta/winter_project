@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour
                 fighting.KnifeAttack();
             }
         }
-        if (Input.GetKey(KeyCode.J) || Input.GetButton("RangeAttack")) // 원거리 키 누른거
+        if (Input.GetKey(KeyCode.J) || Input.GetAxisRaw("RangeAttack") != 0) // 원거리 키 누른거
         {
             if (!fighting.getShootable || fighting.onReloading) return;
             if (fighting.getCurAmmo > 0)
@@ -66,7 +66,7 @@ public class PlayerController : MonoBehaviour
             }
             fighting.Shoot();
         }
-        if (Input.GetKeyUp(KeyCode.J) || Input.GetButtonUp("RangeAttack")) // 원거리 키 뗀거
+        if (Input.GetKeyUp(KeyCode.J) || Input.GetAxisRaw("RangeAttack") == 0) // 원거리 키 뗀거
         {
             movement.Slow(false);
         }
