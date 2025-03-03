@@ -51,6 +51,10 @@ public class PlayerController : MonoBehaviour
     {
         float rsX = Input.GetAxis("RightStickHorizontal");
         float rsY = Input.GetAxis("RightStickVertical");
+        if (Mathf.Abs(rsX) > rsDeadZone || Mathf.Abs(rsY) > rsDeadZone)
+        {
+            Debug.Log("오른쪽 스틱이 움직였습니다!");
+        }
         rsrsrs.text = $"X : {rsX} |  Y : {rsY}";
         rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
         rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
