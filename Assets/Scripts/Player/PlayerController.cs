@@ -44,18 +44,23 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField] float rsDeadZone = 0.2f;
+    bool flag;
     void KeyControll()
     {
         float rsX = Input.GetAxis("RightStickHorizontal");
         float rsY = Input.GetAxis("RightStickVertical");
         print($"RS_X : {rsX} | RS_Y {rsY}");
+        rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
+        rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
+        if (rsX == 0 && rsY == 0) flag = false;
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
             print("락온켜짐");
             fighting.LockOn();
         }
-        if (Input.GetKeyDown(KeyCode.Tab) || Mathf.Abs(rsX) > rsDeadZone || Mathf.Abs(rsY) > rsDeadZone) // 락온 변경
+        if ((Input.GetKeyDown(KeyCode.Tab) || rsX == 1 || rsY == 1) && flag == false) // 락온 변경
         {
+            flag = true;
             print("변경!");
             fighting.ChangeLockOn();
         }
