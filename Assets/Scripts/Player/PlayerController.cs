@@ -8,6 +8,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerMovement movement;
     [SerializeField] PlayerFight fighting;
     [SerializeField] PlayerUI ui;
+    void Start()
+    {
+        ui.PadExecution(false);
+    }
     private void FixedUpdate()
     {
         if (!fighting.isStunned)
@@ -22,6 +26,7 @@ public class PlayerController : MonoBehaviour
         Setting();
         CheckEnd();
         KeyControll();
+        UIPadSet();
     }
     void Setting()
     {
@@ -42,10 +47,12 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
+            print("락온켜짐");
             fighting.LockOn();
         }
         if (Input.GetKeyDown(KeyCode.Tab) || Mathf.Abs(Input.GetAxis("RightStickHorizontal")) > 0.1f || Mathf.Abs(Input.GetAxis("RightStickVertical")) > 0.1f) // 락온 변경
         {
+            print("변경!");
             fighting.ChangeLockOn();
         }
         if (Input.GetKeyDown(KeyCode.I) || Input.GetButtonDown("MeleeAttack")) // 근접
@@ -85,6 +92,24 @@ public class PlayerController : MonoBehaviour
         // {
         // movement.StayLocked();
         // }
+    }
+    bool isPad;
+    void UIPadSet()
+    {
+        if (isPad) return;
+
+        if (Input.GetButtonDown("Dodge") ||
+        Input.GetButtonDown("Reload") ||
+        Input.GetAxisRaw("RangeAttack") != 0 ||
+        Input.GetButtonDown("MeleeAttack") ||
+         Mathf.Abs(Input.GetAxis("RightStickHorizontal")) > 0.1f ||
+         Mathf.Abs(Input.GetAxis("RightStickVertical")) > 0.1f ||
+         Input.GetButtonDown("LockOn")
+        )
+        {
+            isPad = true;
+            ui.PadExecution(true);
+        }
     }
 
     void OnTriggerStay2D(Collider2D collision)

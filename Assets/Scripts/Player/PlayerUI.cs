@@ -5,6 +5,7 @@ using UnityEngine.UI;
 public class PlayerUI : MonoBehaviour
 {
     [SerializeField] Text text_ammo;
+    [SerializeField] Text ExecutionKey;
     [SerializeField] Slider slider_reload;
 
     public void SetAmmoText(int curammo, int totalammo)
@@ -32,5 +33,11 @@ public class PlayerUI : MonoBehaviour
         }
 
         slider_reload.value = 0f;
+    }
+
+    public void PadExecution(bool parm)
+    {
+        ExecutionKey.text = parm ? "X" : "I";
+        ExecutionKey.color = parm ? new Color(0.08962262f, 0.390222f, 1) : Color.white;
     }
 }

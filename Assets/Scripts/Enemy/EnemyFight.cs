@@ -5,6 +5,7 @@ public class EnemyFight : Gun, IDamageable
 {
     public int hp = 5;
     public bool isStunned;
+    public bool IDead;
     public bool onExecution;
     [SerializeField] LayerMask wallLayer;
     [SerializeField] GameObject stunText;
@@ -14,6 +15,7 @@ public class EnemyFight : Gun, IDamageable
     [SerializeField] SpriteRenderer myRenderer;
     [SerializeField] private float laserDuration = 0.1f;
     [SerializeField] LineRenderer lineRenderer;
+    [SerializeField] float captureToShootDelay = 0.5f; // 처음 보고 쏘기까지 딜레이
     public Transform playerTransform;
 
     void Start()
@@ -164,6 +166,7 @@ public class EnemyFight : Gun, IDamageable
     }
     IEnumerator LaserRoutine()
     {
+        yield return new WaitForSeconds(captureToShootDelay);
         lineRenderer.enabled = true;
 
         yield return new WaitForSeconds(laserDuration);
@@ -177,6 +180,7 @@ public class EnemyFight : Gun, IDamageable
     float disappearTime = 0.6f;
     public void Killed()
     {
+        IDead = true;
         StartCoroutine(OnDead());
     }
     IEnumerator OnDead()

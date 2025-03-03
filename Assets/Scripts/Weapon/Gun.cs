@@ -155,7 +155,8 @@ public class Gun : Weapon
                     {
                         transform.TryGetComponent<PlayerFight>(out PlayerFight fight);
                         hit.transform.TryGetComponent<EnemyFight>(out EnemyFight enfight);
-                        fight.Execute(enfight);
+                        if (!enfight.IDead)
+                            fight.Execute(enfight);
                     }
                 }
             }
