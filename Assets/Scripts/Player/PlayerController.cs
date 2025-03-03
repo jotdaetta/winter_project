@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -44,11 +45,13 @@ public class PlayerController : MonoBehaviour
     }
 
     [SerializeField] float rsDeadZone = 0.2f;
+    [SerializeField] Text rsrsrs;
     bool flag;
     void KeyControll()
     {
         float rsX = Input.GetAxis("RightStickHorizontal");
         float rsY = Input.GetAxis("RightStickVertical");
+        rsrsrs.text = $"X : {rsX} |  Y : {rsY}";
         rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
         rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
         print($"RS_X : {rsX} | RS_Y {rsY}");
