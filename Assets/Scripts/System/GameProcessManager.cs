@@ -92,6 +92,7 @@ public class GameProcessManager : MonoBehaviour
 
     public void GameOver()
     {
+        
         gameTimer.TimerActive(false);
         if (isGameOver) return;
         isGameOver = true;

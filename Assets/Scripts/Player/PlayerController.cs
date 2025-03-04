@@ -1,6 +1,7 @@
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] PlayerMovement movement;
     [SerializeField] PlayerFight fighting;
     [SerializeField] PlayerUI ui;
+    private GameControls controls;
+    private Vector2 rightStickInput;
+    private void Awake()
+    {
+        // 컨트롤 인스턴스 생성
+        controls = new GameControls();
+
+        // 오른쪽 스틱 입력에 콜백 함수 연결
+        controls.Gameplay.RightStick.performed += ctx => rightStickInput = ctx.ReadValue<Vector2>();
+        controls.Gameplay.RightStick.canceled += ctx => rightStickInput = Vector2.zero;
+
+    }
     void Start()
     {
         ui.PadExecution(false);
@@ -44,28 +57,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    [SerializeField] float rsDeadZone = 0.2f;
+    [SerializeField] float rsDeadZone = 0.5f;
     [SerializeField] Text rsrsrs;
     bool flag;
     void KeyControll()
     {
-        float rsX = Input.GetAxis("RightStickHorizontal");
-        float rsY = Input.GetAxis("RightStickVertical");
-        rsrsrs.text = $"X : {rsX} |  Y : {rsY}";
-        rsX = Mathf.Abs(rsX) > rsDeadZone ? 1 : 0;
-        rsY = Mathf.Abs(rsY) > rsDeadZone ? 1 : 0;
-        print($"RS_X : {rsX} | RS_Y {rsY}");
-        if (rsX == 0 && rsY == 0) flag = false;
+        rsrsrs.text = $"RSM {rightStickInput.magnitude}";
+        bool isRightStickActive = rightStickInput.magnitude > rsDeadZone;
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
             print("락온켜짐");
             fighting.LockOn();
         }
-        if ((Input.GetKeyDown(KeyCode.Tab) || rsX == 1 || rsY == 1) && flag == false) // 락온 변경
+        if (flag == false && (Input.GetKeyDown(KeyCode.Tab) || isRightStickActive)) // 락온 변경
         {
             flag = true;
             print("변경!");
             fighting.ChangeLockOn();
+        }
+        else if (!isRightStickActive || Input.GetKeyUp(KeyCode.Tab))
+        {
+            flag = false;
         }
         if (Input.GetKeyDown(KeyCode.I) || Input.GetButtonDown("MeleeAttack")) // 근접
         {
@@ -130,5 +142,14 @@ public class PlayerController : MonoBehaviour
         {
             processManager.GameClear();
         }
+    }
+    private void OnEnable()
+    {
+        controls.Gameplay.Enable();
+    }
+
+    private void OnDisable()
+    {
+        controls.Gameplay.Disable();
     }
 }

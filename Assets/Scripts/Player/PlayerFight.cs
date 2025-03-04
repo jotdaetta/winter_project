@@ -9,6 +9,7 @@ public class PlayerFight : Gun, IDamageable
 {
     public int hp = 10;
     public bool isStunned;
+    bool distroied;
     [SerializeField] float mujukTime;
     [SerializeField] float stunTime = 0.5f;
     [SerializeField] SpriteRenderer spriteRenderer;
@@ -28,7 +29,15 @@ public class PlayerFight : Gun, IDamageable
         AimableToLockedEnemy();
         CheckTargetChangeCondition();
         SetAim();
+        // DDIS()
+        if (distroied && stunObj != null)
+        {
+            Destroy(stunObj);
+        }
     }
+    // void DDIS(MyFunc func)
+    // {
+    // }
     #region Gun
     bool onReload;
     public void Shoot()
@@ -294,10 +303,7 @@ public class PlayerFight : Gun, IDamageable
     }
     public void DelStunObj()
     {
-        if (stunObj != null)
-        {
-            Destroy(stunObj);
-        }
+        distroied = true;
     }
     #endregion
 }
