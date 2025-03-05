@@ -37,6 +37,7 @@ public class IntListWrapper  // ✅ 새로운 클래스 추가
 
 public class MenuController : MonoBehaviour
 {
+    public bool isWorking = true;
     public Btn[] buttons;
     public List<IntListWrapper> buttonTo;
     Btn curButton;
@@ -68,6 +69,7 @@ public class MenuController : MonoBehaviour
     }
     void Update()
     {
+        if (!isWorking) return;
         Input_VerticalAxis();
         Input_A_Button();
         Input_B_Button();

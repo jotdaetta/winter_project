@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class GameProcessManager : MonoBehaviour
 {
+    [SerializeField] MenuController menuController;
     [SerializeField] private GameObject gameOverPanel; // 게임 오버 UI
     [SerializeField] private GameObject clearUI;
     [SerializeField] private GameObject reObject;
@@ -26,6 +27,10 @@ public class GameProcessManager : MonoBehaviour
     private bool isGameOver = false;
     private bool reAble = false;
 
+    void Awake()
+    {
+        menuController.isWorking = false;
+    }
     void Start()
     {
         enemyCount = EnemiesCount.childCount;
@@ -44,6 +49,7 @@ public class GameProcessManager : MonoBehaviour
         }
         if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Menu")) && !isGameOver)
         {
+            menuController.isWorking = true;
             gameTimer.TimerActive(false);
             Time.timeScale = 0;
             menuUI.SetActive(true);
@@ -147,8 +153,10 @@ public class GameProcessManager : MonoBehaviour
     {
         gameTimer.TimerActive(true);
         Time.timeScale = 1f;
+        menuController.isWorking = false;
         menuUI.SetActive(false);
-        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+        if (lastEnterImage != null)
+            lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
 
     public void ReStart()
