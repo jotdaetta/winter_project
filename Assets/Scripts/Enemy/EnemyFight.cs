@@ -108,7 +108,7 @@ public class EnemyFight : Gun, IDamageable
     IEnumerator HitRenderer()
     {
         myRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         myRenderer.color = Color.white;
     }
     IEnumerator Stun()

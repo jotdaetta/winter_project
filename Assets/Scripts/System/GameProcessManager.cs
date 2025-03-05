@@ -42,7 +42,7 @@ public class GameProcessManager : MonoBehaviour
             reAble = false;
             RestartGame();
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && !isGameOver)
+        if ((Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Menu")) && !isGameOver)
         {
             gameTimer.TimerActive(false);
             Time.timeScale = 0;
@@ -92,7 +92,7 @@ public class GameProcessManager : MonoBehaviour
 
     public void GameOver()
     {
-        
+
         gameTimer.TimerActive(false);
         if (isGameOver) return;
         isGameOver = true;
