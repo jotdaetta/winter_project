@@ -94,6 +94,7 @@ public class EnemyFight : Gun, IDamageable
             onExecution = true;
             return true;
         }
+        StartCoroutine(HitRenderer());
         hp -= damage;
         if (!isStunned && ++stunCount == 2)
         {
@@ -103,6 +104,12 @@ public class EnemyFight : Gun, IDamageable
             stunObj = Instantiate(stunText, canvas);
         }
         return false;
+    }
+    IEnumerator HitRenderer()
+    {
+        myRenderer.color = Color.red;
+        yield return new WaitForSeconds(0.2f);
+        myRenderer.color = Color.white;
     }
     IEnumerator Stun()
     {
