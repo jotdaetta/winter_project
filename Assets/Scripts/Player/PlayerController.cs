@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour
     bool flag;
     void KeyControll()
     {
-        rsrsrs.text = $"RSM {rightStickInput.magnitude}";
+        //rsrsrs.text = $"RSM {rightStickInput.magnitude}";
         bool isRightStickActive = rightStickInput.magnitude > rsDeadZone;
         if (Input.GetKeyDown(KeyCode.LeftControl) || Input.GetButtonDown("LockOn")) // 락온 토글
         {
