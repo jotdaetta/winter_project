@@ -226,12 +226,12 @@ public class MainUIController : MonoBehaviour
     public void Settings()
     {
         settingsPannel.SetActive(!settingsPannel.activeSelf);
-        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+        LastImgSet();
     }
     public void HowTo(bool parm)
     {
         howtoPannel.SetActive(parm);
-        lastEnterImage.color = new Color(0, 0, 0, 0.8f);
+        LastImgSet();
 
         SoundManager.Instance.Play("ui.click");
     }
@@ -247,6 +247,11 @@ public class MainUIController : MonoBehaviour
     {
         Color color = new Color(0, 0, 0, 0.8f);
         img.color = color;
+    }
+    void LastImgSet()
+    {
+        if (lastEnterImage != null)
+            lastEnterImage.color = new Color(0, 0, 0, 0.8f);
     }
     #endregion
 }
