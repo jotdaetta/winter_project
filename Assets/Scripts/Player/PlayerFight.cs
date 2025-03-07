@@ -71,7 +71,6 @@ public class PlayerFight : Gun, IDamageable
     #region Lock On
     [Header("록온")]
     [SerializeField] LayerMask WallLayer;
-    [SerializeField] float LockOnMaxDistance = 14;
     [SerializeField] float LockOnMaxLostDistance = 15;
     List<GameObject> enemies = new();
     SpriteRenderer targetRenderer = null;
