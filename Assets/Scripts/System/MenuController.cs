@@ -78,7 +78,7 @@ public class MenuController : MonoBehaviour
     void Input_VerticalAxis()
     {
         float vertical = Input.GetAxisRaw("Vertical");
-        if (vertical == 0)
+        if (Mathf.Abs(vertical) < 0.5f)
         {
             verticalInputBlocked = false;
             return;
