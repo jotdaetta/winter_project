@@ -127,6 +127,16 @@ public class MainUIController : MonoBehaviour
     #endregion
 
     #region Public Methods
+    public void ExitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
+
     Vector2[] endPos = {
         new Vector2(-2300, -790),
         new Vector2(-1300, -190),
