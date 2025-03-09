@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour
     {
         if (fighting.hp <= 0)
         {
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
             processManager.GameOver();
             fighting.DelStunObj();
         }
@@ -90,6 +91,7 @@ public class PlayerController : MonoBehaviour
         }
         if (Input.GetKey(KeyCode.J) || Input.GetAxisRaw("RangeAttack") != 0) // 원거리 키 누른거
         {
+            TriggerVibration(1f, 1f, 0.2f);
             if (!fighting.getShootable || fighting.onReloading) return;
             if (fighting.getCurAmmo > 0)
             {
@@ -133,6 +135,27 @@ public class PlayerController : MonoBehaviour
         {
             isPad = true;
             ui.PadExecution(true);
+        }
+    }
+    public void TriggerVibration(float leftMotorSpeed, float rightMotorSpeed, float duration)
+    {
+        if (Gamepad.current != null)
+        {
+            // 진동 강도를 설정
+            Gamepad.current.SetMotorSpeeds(leftMotorSpeed, rightMotorSpeed);
+            // 지정된 시간 후에 진동 멈추기
+            StartCoroutine(StopVibrationAfterDelay(duration));
+        }
+    }
+
+    private System.Collections.IEnumerator StopVibrationAfterDelay(float duration)
+    {
+        yield return new WaitForSeconds(duration);
+
+        // 진동 멈추기
+        if (Gamepad.current != null)
+        {
+            Gamepad.current.SetMotorSpeeds(0f, 0f);
         }
     }
 
