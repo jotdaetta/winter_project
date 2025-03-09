@@ -105,9 +105,10 @@ public class EnemyFight : Gun, IDamageable
         }
         return false;
     }
+    [SerializeField] Color HitColor = Color.red;
     IEnumerator HitRenderer()
     {
-        myRenderer.color = Color.red;
+        myRenderer.color = HitColor;
         yield return new WaitForSeconds(0.3f);
         myRenderer.color = Color.white;
     }
