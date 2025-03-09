@@ -89,10 +89,11 @@ public class MenuController : MonoBehaviour
         if (verticalInputBlocked) return;
         verticalInputBlocked = true;
         // KeyActvate();
+        verticalAxisTest.text = $"Vertical Axis : {vertical}";
         print("Axis");
-        if (vertical == 1 && curButton.up != null)
+        if (vertical > 0 && curButton.up != null)
             ButtonAndImageColorChange(curButton.up);
-        else if (vertical == -1 && curButton.down != null)
+        else if (vertical < 0 && curButton.down != null)
             ButtonAndImageColorChange(curButton.down);
     }
     bool onDelay;
