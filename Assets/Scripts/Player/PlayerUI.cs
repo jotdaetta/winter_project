@@ -34,9 +34,11 @@ public class PlayerUI : MonoBehaviour
 
         slider_reload.value = 0f;
     }
+    public bool isPad;
 
     public void PadExecution(bool parm)
     {
+        isPad = parm;
         ExecutionKey.text = parm ? "X" : "I";
         ExecutionKey.color = parm ? new Color(0.08962262f, 0.390222f, 1) : Color.white;
     }
