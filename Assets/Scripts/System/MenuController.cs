@@ -75,10 +75,13 @@ public class MenuController : MonoBehaviour
         Input_B_Button();
     }
     bool verticalInputBlocked = false;
+    [SerializeField] Text verticalAxisTest;
+    [SerializeField] float verticalAxisDead = 0.5f;
     void Input_VerticalAxis()
     {
         float vertical = Input.GetAxisRaw("Vertical");
-        if (Mathf.Abs(vertical) < 0.5f)
+        verticalAxisTest.text = $"Vertical Axis : {vertical}";
+        if (Mathf.Abs(vertical) < verticalAxisDead)
         {
             verticalInputBlocked = false;
             return;
@@ -95,7 +98,7 @@ public class MenuController : MonoBehaviour
     bool onDelay;
     void Input_A_Button()
     {
-        if (!(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.A)) || onDelay) return;
+        if (!(Input.GetButtonDown("A") || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.A)) || onDelay) return;
         print("A");
         // KeyActvate();
         if (curButton.enterTrigger != null)
@@ -108,7 +111,7 @@ public class MenuController : MonoBehaviour
     }
     void Input_B_Button()
     {
-        if (!(Input.GetButtonDown("B") || Input.GetKeyDown(KeyCode.B)) || onDelay) return;
+        if (!(Input.GetButtonDown("B") || Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.B)) || onDelay) return;
         print("B");
         // KeyActvate();
         if (curButton.backTrigger != null)
