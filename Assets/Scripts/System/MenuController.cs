@@ -75,12 +75,10 @@ public class MenuController : MonoBehaviour
         Input_B_Button();
     }
     bool verticalInputBlocked = false;
-    [SerializeField] Text verticalAxisTest;
     [SerializeField] float verticalAxisDead = 0.5f;
     void Input_VerticalAxis()
     {
         float vertical = Input.GetAxisRaw("Vertical");
-        verticalAxisTest.text = $"Vertical Axis : {vertical}";
         if (Mathf.Abs(vertical) < verticalAxisDead)
         {
             verticalInputBlocked = false;
@@ -89,7 +87,6 @@ public class MenuController : MonoBehaviour
         if (verticalInputBlocked) return;
         verticalInputBlocked = true;
         // KeyActvate();
-        verticalAxisTest.text = $"Vertical Axis : {vertical}";
         print("Axis");
         if (vertical > 0 && curButton.up != null)
             ButtonAndImageColorChange(curButton.up);
